@@ -3,6 +3,7 @@
 export const types = {
 
     usuariosCargados: '[Game] Usuarios Cargados',
-    iniciarPartida: '[Game] Iniciar Partida'
+    cargarJugador: '[Game] Cargar Jugador',
+    elegirSheriff: '[Game] Elegir Sheriff'
 
 }

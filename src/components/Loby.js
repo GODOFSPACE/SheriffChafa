@@ -5,6 +5,8 @@ import { GameContext } from '../context/game/GameContext';
 import { PartyContext } from '../context/game/PartyContext';
 import { UsuariosConectados } from './UsuariosConectados';
 import { SocketContext } from '../context/SocketContext';
+import { usePickSheriff } from '../hooks/usePickSheriff';
+import { useHistory } from 'react-router-dom';
 
 
 const Jugadores = styled.div`
@@ -56,11 +58,23 @@ export const Loby = () => {
     const { gameRoom } = useContext( GameContext );
     const { partyState } = useContext( PartyContext );
     const {socket} = useContext(SocketContext);
+    const {ElegirSheriff} = usePickSheriff();
 
     const { sala } = gameRoom;
 
+    const history = useHistory();
+
     const onClick = () => {
+        //Elegir el sheriff de la partida
+        ElegirSheriff();
+
+
+
+        //Manda los personajes a los jugadores
         socket.emit('iniciar-partida', partyState.jugadores);
+
+
+        history.push('/host');
     }
 
     return (

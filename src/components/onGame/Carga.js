@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Global, css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { useHistory } from 'react-router-dom';
+
+import { PartyContext } from '../../context/game/PartyContext';
 
 const Logo = styled.div`
     font-size: 20rem;
@@ -12,6 +15,16 @@ const Texto = styled.div`
 `;
 
 export const Carga = () => {
+
+    const {partyState} = useContext(PartyContext);
+    const history = useHistory();
+
+    useEffect(() => {
+        if(partyState.ready){
+            history.push('/jugador');
+        }
+    }, [partyState, history])
+
     return (
         <>
             <Global styles={css`

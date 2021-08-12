@@ -7,18 +7,20 @@ import { types } from '../types/types';
 // import { types } from '../types/types';
 import { GameContext } from './game/GameContext';
 import { PartyContext } from './game/PartyContext';
+import { useCartaAleatoria } from '../hooks/useCartaAleatoria';
 // import { PartyContext } from './game/PartyContext';
- 
+
 
 export const SocketContext = createContext();
 
 export const SocketProvider = ({ children }) => {
-    
+
     const { gameRoom } = useContext(GameContext);
     const { online } = gameRoom;
     // const { dispatch } = useContext(PartyContext);
     const { socket, conectarSocket, desconectarSocket } = useSocket('http://localhost:8080');
     const { dispatch } = useContext(PartyContext);
+    const {elegirCarta} = useCartaAleatoria();
 
     //Conectar usuario
 
@@ -27,7 +29,7 @@ export const SocketProvider = ({ children }) => {
             conectarSocket();
         }
     }, [ online, conectarSocket ]);
-    
+
     useEffect(() => {
         if ( !online){
             desconectarSocket();
@@ -42,14 +44,18 @@ export const SocketProvider = ({ children }) => {
 
             //Asignar personaje al jugador
             player.personaje = personajeJugador();
-            
+
+            console.log(elegirCarta(6));
+            //Asignar 6 cartas iniciales al jugador
+            player.personaje.deck=elegirCarta(6);
+
             dispatch({
                 type: types.usuariosCargados,
                 payload: player
             })
-            
+
         });
-    
+
     }, [ socket, dispatch ]);
 
 
@@ -59,15 +65,15 @@ export const SocketProvider = ({ children }) => {
         socket?.on( 'obtener-info', (personajes) => {
 
             dispatch({
-                type: types.usuariosCargados,
+                type: types.cargarJugador,
                 payload: personajes
             })
-            
+
         });
-    
+
     }, [ socket, dispatch ]);
 
-    
+
     return (
         <SocketContext.Provider value={{ socket, online }}>
             { children }

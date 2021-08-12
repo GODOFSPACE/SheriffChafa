@@ -3,6 +3,7 @@ import { Registro } from '../components/Registro';
 import { Selector } from '../components/Selector';
 import { Loby } from '../components/Loby';
 import { Carga } from '../components/onGame/Carga';
+import { Host } from '../components/onGame/Host';
 import { Jugador } from '../components/onGame/Jugador';
 
 import {
@@ -20,6 +21,7 @@ export const AppRouter = () => {
                 <Route path="/loby" component= {Loby} />
                 <Route path="/carga" component= {Carga} />
                 <Route path="/jugador" component= {Jugador}/>
+                <Route path="/host" component= {Host}/>
                 <Route path="/" component= {Selector} />
                 
                 <Redirect to="/" />
