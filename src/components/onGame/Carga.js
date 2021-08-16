@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import { useHistory } from 'react-router-dom';
 
 import { PartyContext } from '../../context/game/PartyContext';
+import { UsuarioContext } from '../../context/UsuariosContext';
 
 const Logo = styled.div`
     font-size: 20rem;
@@ -23,7 +24,7 @@ export const Carga = () => {
         if(partyState.ready){
             history.push('/jugador');
         }
-    }, [partyState, history])
+    }, [partyState, history]);
 
     return (
         <>

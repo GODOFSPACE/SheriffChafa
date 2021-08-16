@@ -12,7 +12,8 @@ export const PartyReducer = ( state, action ) => {
         case types.cargarJugador:
             return {
                 ...state,
-                jugadores: action.payload,
+                jugadores: action.payload.jugadores,
+                sheriff: action.payload.sheriff,
                 ready: true
             }
 
@@ -20,6 +21,26 @@ export const PartyReducer = ( state, action ) => {
             return{
                 ...state,
                 sheriff: { id: action.payload.id, numero: action.payload.numero }
+            }
+
+        case types.refrescarUsuario:
+            return{
+                ...state,
+                usuario: action.payload
+            }
+
+        case types.mandarMerca:
+            return{
+                ...state,
+                revision: [ ...state.revision, action.payload ]
+            }
+
+        case types.guardarJugadorRevision:
+            const comprobar = state.usuario.id === action.payload.id;
+            return{
+                ...state,
+                revisando: action.payload,
+                ready: comprobar
             }
 
         default:

@@ -1,11 +1,14 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Global, css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Producto } from './Producto';
 import { PartyContext } from '../../context/game/PartyContext';
-import { UsuarioContext } from '../../context/UsuariosContext';
 import shortid from 'shortid';
-import { SelectorCartas } from './SelectorCartas';
+import {SelectorCartas} from '../onGame/SelectorCartas';
+import { SocketContext } from '../../context/SocketContext';
+import { Declarar } from './Declarar';
+import { useHistory } from 'react-router-dom';
+import { Sheriff } from './Sheriff';
 
 const Dinero = styled.div`
     display: inline-block;
@@ -50,17 +53,33 @@ const Logo = styled.div`
 export const Jugador = () => {
 
     const { partyState } = useContext(PartyContext);
-    const { jugadores } = partyState;
-    const { jugador } = useContext(UsuarioContext);
+    const { usuario, revisando, sheriff } = partyState;
+    const { socket } = useContext(SocketContext);
+    const history = useHistory();
 
-    let persona = null;
+    const [fase, setFase] = useState(0);
 
-    const encontrarJugador = () => {
-        jugadores.map(player => {
-            if(player.id === jugador.id){
-                return persona = player;   
+    useEffect(() => {
+        if(revisando !== null && usuario.id === revisando.id )
+            history.push('/soborno');
+    }, [revisando])
+
+    const siguienteFase = () => {
+        if(fase===1){
+            socket.emit( 'cambiar-jugador-info', usuario );
+        }
+        if(fase===3){
+            for(let i=0; i<usuario.personaje.deck.length; i++){
+                if(usuario.personaje.deck[i].descartada){
+                    usuario.personaje.mercancia = [...usuario.personaje.mercancia, usuario.personaje.deck[i]]
+                }
             }
-        })
+        }
+        setFase(fase + 1);
+    }
+
+    const anteriorFase = () => {
+        setFase(fase - 1);
     }
 
     return (
@@ -89,30 +108,76 @@ export const Jugador = () => {
                     color: inherit;
                 }
             `}/>
-
             <div className="container-fluid">
                 <div className="row justify-content-center">
                     <div className="col-12 mt-3">
                         <Dinero>
-                            <span>130</span>
+                            <span>{usuario.personaje.dinero}</span>
                         </Dinero>
                         <Moneda>$</Moneda>
                     </div>
                 </div>
-
-                    {
-                        encontrarJugador()
-                    }
-                {/* <div className="row justify-content-center">
+                {
+                    sheriff.id === usuario.id ?
+                    <Sheriff />
+                    :
+                    fase===0 ?
+                    <div className="row justify-content-center">
+                        
+                        {   
+                            usuario.personaje.deck.map(carta => (
+                                    <Producto key= {shortid()}  nombre={carta.nombre} columna={'col-6'}/>
+                            ))
+                        }
+                    </div>:
+                    fase===1 ?
+                    <SelectorCartas key={shortid()} cartas ={usuario.personaje.deck}/>:
+                    fase ===2 ? <div className="row justify-content-center">                    
+                        {   
+                            usuario.personaje.deck.map(carta => (
+                                    <Producto key={shortid()} nombre={carta.nombre} columna={'col-6'}/>
+                            ))
+                        }
+                    </div>:
+                    fase==3 ?
+                    <SelectorCartas key={shortid()} cartas ={usuario.personaje.deck}/>:
+                    fase===4 ? <Declarar />:
+                    <h1>Error XD</h1>
                     
-                    {   
-                        persona.personaje.deck.map(carta => (
-                            <Producto key={shortid()} nombre={carta.nombre} />
-                        ))
-                    }
-                </div> */}
+                }
 
-                <SelectorCartas cartas ={persona.personaje.deck}/>
+                {/* {
+                    fase===1 &&
+                    <SelectorCartas key={shortid()} cartas ={usuario.personaje.deck}/>
+                }
+
+                {fase===2 &&
+                    <div className="row justify-content-center">                    
+                        {   
+                            usuario.personaje.deck.map(carta => (
+                                    <Producto key={shortid()} nombre={carta.nombre} columna={'col-6'}/>
+                            ))
+                        }
+                    </div>
+                }
+
+                {fase===3 && 
+                    <SelectorCartas key={shortid()} cartas ={usuario.personaje.deck}/>
+                }
+
+                {fase===4 &&
+                    <Declarar />
+                } */}
+
+
+                <div className="row justify-content-around">
+                    <div className="col-4">
+                        <Logo className="fas fa-hand-point-left" onClick={anteriorFase}></Logo>
+                    </div>
+                    <div className="col-4">
+                        <Logo className="fas fa-hand-point-right" onClick={siguienteFase}></Logo>
+                    </div>
+                </div>
 
                 <div className="row justify-content-center">
                     <div className="col-4">

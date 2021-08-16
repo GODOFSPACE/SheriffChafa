@@ -7,6 +7,8 @@ import { UsuariosConectados } from './UsuariosConectados';
 import { SocketContext } from '../context/SocketContext';
 import { usePickSheriff } from '../hooks/usePickSheriff';
 import { useHistory } from 'react-router-dom';
+import { SelectorPersonaje } from './onGame/SelectorPersonaje';
+import shortid from 'shortid';
 
 
 const Jugadores = styled.div`
@@ -52,6 +54,20 @@ const BotonNext = styled.button`
     }
 `;
 
+const CartaJugador = styled.div`
+    padding: 0;
+    img{
+        width: 150px;
+        height: 150px;
+        margin: 0 auto;
+    }
+    span{
+        font-weight: 400;
+        font-size: 3rem;
+        margin: 0;
+    }
+`;
+
 
 export const Loby = () => {
     
@@ -71,7 +87,7 @@ export const Loby = () => {
 
 
         //Manda los personajes a los jugadores
-        socket.emit('iniciar-partida', partyState.jugadores);
+        socket.emit('iniciar-partida', partyState);
 
 
         history.push('/host');
@@ -86,10 +102,10 @@ export const Loby = () => {
                 {
                     partyState.jugadores
                         .map( ( jugador ) => (
-                            <UsuariosConectados 
-                                key = {jugador.id}
-                                jugador = { jugador }
-                            />
+                            <CartaJugador className="col-4">
+                                <span>{jugador.nombre}</span>
+                                <SelectorPersonaje key ={shortid()} nombre={jugador.personaje.nombre}/>
+                            </CartaJugador>
                         ))
                 }
             </div>
