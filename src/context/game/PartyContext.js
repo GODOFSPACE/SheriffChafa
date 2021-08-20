@@ -21,7 +21,9 @@ const initialState = {
     usuario: null,
     sheriff: {id: '', numero: 0},
     revision: [],
+    vendedores: [],
     revisando: null,
+    soborno: -1,
     ready: false
 }
 

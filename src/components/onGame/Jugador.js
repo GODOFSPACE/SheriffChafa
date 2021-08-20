@@ -9,6 +9,7 @@ import { SocketContext } from '../../context/SocketContext';
 import { Declarar } from './Declarar';
 import { useHistory } from 'react-router-dom';
 import { Sheriff } from './Sheriff';
+import { Modal } from './Modal';
 
 const Dinero = styled.div`
     display: inline-block;
@@ -146,44 +147,25 @@ export const Jugador = () => {
                     
                 }
 
-                {/* {
-                    fase===1 &&
-                    <SelectorCartas key={shortid()} cartas ={usuario.personaje.deck}/>
+                {
+                    (sheriff.id !== usuario.id && fase!==4) &&
+                    <>
+                        <div className="row justify-content-around">
+                            <div className="col-4">
+                                <Logo className="fas fa-hand-point-left" onClick={anteriorFase}></Logo>
+                            </div>
+                            <div className="col-4">
+                                <Logo className="fas fa-hand-point-right" onClick={siguienteFase}></Logo>
+                            </div>
+                        </div>
+
+                        <div className="row justify-content-center">
+                            <div className="col-4">
+                                <Logo className="fas fa-skull"></Logo>
+                            </div>
+                        </div>
+                    </>
                 }
-
-                {fase===2 &&
-                    <div className="row justify-content-center">                    
-                        {   
-                            usuario.personaje.deck.map(carta => (
-                                    <Producto key={shortid()} nombre={carta.nombre} columna={'col-6'}/>
-                            ))
-                        }
-                    </div>
-                }
-
-                {fase===3 && 
-                    <SelectorCartas key={shortid()} cartas ={usuario.personaje.deck}/>
-                }
-
-                {fase===4 &&
-                    <Declarar />
-                } */}
-
-
-                <div className="row justify-content-around">
-                    <div className="col-4">
-                        <Logo className="fas fa-hand-point-left" onClick={anteriorFase}></Logo>
-                    </div>
-                    <div className="col-4">
-                        <Logo className="fas fa-hand-point-right" onClick={siguienteFase}></Logo>
-                    </div>
-                </div>
-
-                <div className="row justify-content-center">
-                    <div className="col-4">
-                        <Logo className="fas fa-skull"></Logo>
-                    </div>
-                </div>
 
             </div>
             

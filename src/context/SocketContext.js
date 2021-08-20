@@ -8,6 +8,7 @@ import { GameContext } from './game/GameContext';
 import { PartyContext } from './game/PartyContext';
 import { useCartaAleatoria } from '../hooks/useCartaAleatoria';
 import { UsuarioContext } from './UsuariosContext';
+import { useCobrarMerca } from '../hooks/useCobrarMerca';
 
 
 export const SocketContext = createContext();
@@ -18,9 +19,10 @@ export const SocketProvider = ({ children }) => {
     const { online } = gameRoom;
     // const { dispatch } = useContext(PartyContext);
     const { socket, conectarSocket, desconectarSocket } = useSocket('http://localhost:8080');
-    const { dispatch, partyState } = useContext(PartyContext);
+    const { dispatch } = useContext(PartyContext);
     const {elegirCarta} = useCartaAleatoria();
     const { jugador } = useContext(UsuarioContext);
+    const {noRevisar} = useCobrarMerca();
 
     //Conectar usuario
 
@@ -129,10 +131,25 @@ export const SocketProvider = ({ children }) => {
             })
         });
     }, [ socket, dispatch ]);
+    
+    
+    //Recibir soborno
+    useEffect(() => {
+        socket?.on( 'recibir-sobrno', async ( soborno ) => {
+            await dispatch({
+                type: types.mandarSoborno,
+                payload: soborno
+            })
+        })
+    },[socket, dispatch]);
 
-
-
-
+    //Desplegar veredicto XD
+    useEffect(() => {
+        socket?.on( 'vender-mercancias', ( { examinar, revisando } ) => {
+            if( examinar )
+                noRevisar(revisando);
+        });
+    }, [ socket ]);
 
     return (
         <SocketContext.Provider value={{ socket, online }}>

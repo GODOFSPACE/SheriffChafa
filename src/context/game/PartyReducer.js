@@ -43,6 +43,18 @@ export const PartyReducer = ( state, action ) => {
                 ready: comprobar
             }
 
+        case types.mandarSoborno:
+            return{
+                ...state,
+                soborno: action.payload
+            }
+
+        case types.guardarVentas:
+            return{
+                ...state,
+                vendedores: [ ...state.vendedores, action.payload ],
+            }
+
         default:
             return state;
     }

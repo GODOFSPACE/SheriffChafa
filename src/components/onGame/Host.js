@@ -3,15 +3,12 @@ import { Global, css } from '@emotion/react';
 import { SelectorSheriff } from '../Host/SelectorSheriff';
 import { Contador } from '../Host/Contador';
 import { ImprimirJugadores } from '../Host/ImprimirJugadores';
-import { SocketContext } from '../../context/SocketContext';
 import { PartyContext } from '../../context/game/PartyContext';
+import { JuicioFinal } from '../Host/JuicioFinal';
 
 export const Host = () => {
 
-    const [contador, setContador] = useState(0);
     const [fase, setFase] = useState(0);
-
-    const {socket} = useContext(SocketContext);
     const { partyState } = useContext(PartyContext);
     const{ jugadores, revision } = partyState;
 
@@ -41,8 +38,7 @@ export const Host = () => {
     //Preparar para revision de mercancia
     useEffect(() => {
             if(jugadores.length - 1 === revision.length){
-                socket.emit('evaluar-jugador', revision[contador]);
-                setContador(contador +1);
+                setFase(fase + 1 );
             }
     }, [jugadores, revision]);
 
@@ -72,6 +68,7 @@ export const Host = () => {
                 }
 
             `}/>
+
             {fase === 0 &&
                 <SelectorSheriff />
             }
@@ -80,6 +77,9 @@ export const Host = () => {
             }
             {fase === 2 &&
                 <ImprimirJugadores />
+            }
+            {fase === 3 &&
+                <JuicioFinal />
             }
             
         </div>

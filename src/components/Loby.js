@@ -102,7 +102,7 @@ export const Loby = () => {
                 {
                     partyState.jugadores
                         .map( ( jugador ) => (
-                            <CartaJugador className="col-4">
+                            <CartaJugador key = {jugador.id} className="col-4">
                                 <span>{jugador.nombre}</span>
                                 <SelectorPersonaje key ={shortid()} nombre={jugador.personaje.nombre}/>
                             </CartaJugador>

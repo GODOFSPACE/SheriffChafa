@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import { Global, css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { PartyContext } from '../../context/game/PartyContext';
+import { SocketContext } from '../../context/SocketContext';
 
 const Dinero = styled.div`
     display: inline-block;
@@ -67,6 +68,7 @@ const BotonesSR = styled.span`
 
 export const Soborno = () => {
 
+    const {socket} = useContext(SocketContext);
     const {partyState} = useContext(PartyContext);
     const {usuario} = partyState;
 
@@ -78,6 +80,10 @@ export const Soborno = () => {
 
     const restar = (cantidad) => {
         setSoborno(soborno - cantidad);
+    }
+
+    const mandarSoborno = () => {
+        socket.emit('mandar-soborno', soborno );
     }
 
     return (
@@ -142,6 +148,16 @@ export const Soborno = () => {
                         <MonedaBoton> $10 </MonedaBoton>
                         <BotonesSR onClick={() => restar(10)}>-</BotonesSR>
                     </div> */}
+                </div>
+
+                <div className="row">
+                    <div className="col-6">
+                        Cancelar
+                    </div>
+
+                    <div className="col-6" onClick={mandarSoborno}>
+                        Mandar Soborno
+                    </div>
                 </div>
             </div>
         </div>

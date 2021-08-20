@@ -5,7 +5,7 @@ import { SelectorPersonaje } from '../onGame/SelectorPersonaje';
 
 export const ImprimirJugadores = () => {
     const {partyState} = useContext(PartyContext);
-    const { revision} = partyState;
+    const { revision } = partyState;
 
     return (
         <div className="container">
