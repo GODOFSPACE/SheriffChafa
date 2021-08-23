@@ -22,7 +22,7 @@ export const SocketProvider = ({ children }) => {
     const { dispatch } = useContext(PartyContext);
     const {elegirCarta} = useCartaAleatoria();
     const { jugador } = useContext(UsuarioContext);
-    const {noRevisar} = useCobrarMerca();
+    const {noRevisar, revisarMercancia} = useCobrarMerca();
 
     //Conectar usuario
 
@@ -146,10 +146,43 @@ export const SocketProvider = ({ children }) => {
     //Desplegar veredicto XD
     useEffect(() => {
         socket?.on( 'vender-mercancias', ( { examinar, revisando } ) => {
-            if( examinar )
+
+            if( revisando.id === jugador.id){
+                dispatch({
+                    type: types.CambiarReady,
+                    payload: false
+                }) 
+            }
+
+            if( examinar ){
+                console.log('examinando');
+                revisarMercancia(revisando);
+            }
+
+            if( !examinar )
                 noRevisar(revisando);
         });
     }, [ socket ]);
+
+    //Recibir soborno
+    useEffect(() => {
+        socket?.on( 'pasar-ronda', async ( party ) => {
+
+            console.log(party);
+
+            await dispatch({
+                type: types.cargarJugador,
+                payload: party
+            })
+
+            await dispatch({
+                type: types.refrescarUsuario,
+                payload: party.jugadores.filter(player => player.id === jugador.id)[0]
+            })
+            
+
+        })
+    },[socket, dispatch]);
 
     return (
         <SocketContext.Provider value={{ socket, online }}>

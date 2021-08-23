@@ -5,6 +5,8 @@ import { SelectorPersonaje } from '../onGame/SelectorPersonaje';
 import styled from '@emotion/styled';
 import { SocketContext } from '../../context/SocketContext';
 import { Producto } from '../onGame/Producto';
+import { types } from '../../types/types';
+import { usePickSheriff } from '../../hooks/usePickSheriff';
 
 const Contenedor = styled.div`
     margin: 0 auto;
@@ -16,34 +18,55 @@ const Contenedor = styled.div`
 `;
 
 
-export const JuicioFinal = () => {
+export const JuicioFinal = ({fase}) => {
     
-    const {partyState } = useContext(PartyContext);
+    const {partyState, dispatch } = useContext(PartyContext);
     const {revision, jugadores, vendedores} = partyState;
     const {socket} = useContext(SocketContext);
+    const {SiguienteSheriff} = usePickSheriff();
 
     const [estado, setEstado] = useState('MostrarJugador');
 
     const [contador, setContador] = useState(0);
 
-    const [loop, setLoop] = useState(-1);
+    const [loop, setLoop] = useState(-3);
     const disminuirTiempo = () => {
         setLoop(loop-1);
     }
 
+    const SiguienteJugador = () => {
+        if(jugadores.length - 2 > contador){
+            setContador(contador+1);
+            setEstado('MostrarJugador');
+        }
+        else if (jugadores.length - 2 === contador){
+            
+            setEstado('TerminaRevision');
+            
+            dispatch({
+                type: types.ReiniciarTurno,
+                payload: false
+            });
+            
+            SiguienteSheriff();
+            
+            fase(0);
+        }
+    }
+
     
     useEffect(() => {
-        if(loop > 0){
+        if(loop >= 0){
 
-            let timer = setTimeout(()=> disminuirTiempo() , 5000);
+            let timer = setTimeout(()=> disminuirTiempo() , 3000);
 
             return () => {
                 clearTimeout(timer);
             }
         }
 
-        if(loop === 0 ) {
-            console.log('Listo PRRO');
+        if(loop === -1 ) {
+            SiguienteJugador();
         }
 
     }, [loop]);
@@ -55,10 +78,10 @@ export const JuicioFinal = () => {
         if(jugadores.length - 1 === revision.length){
             socket.emit('evaluar-jugador', revision[contador]);
         }
-    }, [jugadores, revision]);
+    }, [jugadores, revision, contador]);
 
     useEffect(() => {
-        if(vendedores !== []){
+        if(vendedores.length > 0){
             setLoop(revision[contador].personaje.mercancia.length - 1);
             setEstado('MostrarCartas');
         }
@@ -76,7 +99,16 @@ export const JuicioFinal = () => {
         
         case 'MostrarCartas':
             return (
-                <Producto nombre={revision[contador].personaje.mercancia[loop].nombre}/>
+                <Producto nombre={revision[contador].personaje.mercancia[loop >= 0 ? loop : 0].nombre}/>
+            )
+
+        case 'TerminaRevision':
+            return(
+                <h1>Se revisaron a todos los jugadores</h1>
+            )
+        default: 
+            return(
+                <h1>Hubo un error</h1>
             )
     }
 }

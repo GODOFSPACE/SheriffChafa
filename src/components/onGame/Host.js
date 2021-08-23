@@ -5,12 +5,14 @@ import { Contador } from '../Host/Contador';
 import { ImprimirJugadores } from '../Host/ImprimirJugadores';
 import { PartyContext } from '../../context/game/PartyContext';
 import { JuicioFinal } from '../Host/JuicioFinal';
+import {SocketContext} from '../../context/SocketContext.js';
 
 export const Host = () => {
 
     const [fase, setFase] = useState(0);
     const { partyState } = useContext(PartyContext);
-    const{ jugadores, revision } = partyState;
+    const{ jugadores, revision, ronda } = partyState;
+    const {socket} = useContext(SocketContext);
 
 
     const siguienteArticulo = () => {
@@ -38,9 +40,17 @@ export const Host = () => {
     //Preparar para revision de mercancia
     useEffect(() => {
             if(jugadores.length - 1 === revision.length){
-                setFase(fase + 1 );
+                setFase( 3 );
             }
     }, [jugadores, revision]);
+
+    //Detectar numero de ronda
+
+    useEffect(() => {
+        if(ronda > 0){
+            socket.emit('siguiente-ronda', partyState);
+        }
+    }, [ronda]);
 
     
 
@@ -79,7 +89,7 @@ export const Host = () => {
                 <ImprimirJugadores />
             }
             {fase === 3 &&
-                <JuicioFinal />
+                <JuicioFinal fase = {setFase}/>
             }
             
         </div>

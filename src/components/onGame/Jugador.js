@@ -54,7 +54,7 @@ const Logo = styled.div`
 export const Jugador = () => {
 
     const { partyState } = useContext(PartyContext);
-    const { usuario, revisando, sheriff } = partyState;
+    const { usuario, revisando, sheriff, ready } = partyState;
     const { socket } = useContext(SocketContext);
     const history = useHistory();
 
@@ -63,7 +63,7 @@ export const Jugador = () => {
     useEffect(() => {
         if(revisando !== null && usuario.id === revisando.id )
             history.push('/soborno');
-    }, [revisando])
+    }, [revisando]);
 
     const siguienteFase = () => {
         if(fase===1){

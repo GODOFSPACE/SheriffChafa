@@ -19,12 +19,13 @@ const initialState = {
 
     ],
     usuario: null,
-    sheriff: {id: '', numero: 0},
+    sheriff: {id: '', numero: 0, pago: 0},
     revision: [],
     vendedores: [],
     revisando: null,
     soborno: -1,
-    ready: false
+    ready: false,
+    ronda: 0
 }
 
 export const PartyProvider = ({ children }) => {

@@ -1,8 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Global, css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { PartyContext } from '../../context/game/PartyContext';
 import { SocketContext } from '../../context/SocketContext';
+import { useHistory } from 'react-router-dom';
 
 const Dinero = styled.div`
     display: inline-block;
@@ -70,7 +71,8 @@ export const Soborno = () => {
 
     const {socket} = useContext(SocketContext);
     const {partyState} = useContext(PartyContext);
-    const {usuario} = partyState;
+    const {usuario, ready} = partyState;
+    const history = useHistory();
 
     const [soborno, setSoborno] = useState(0);
 
@@ -85,6 +87,12 @@ export const Soborno = () => {
     const mandarSoborno = () => {
         socket.emit('mandar-soborno', soborno );
     }
+
+    useEffect(() => {
+        if(!ready){
+            history.push('carga');
+        }
+    }, [ready]);
 
     return (
         <div>

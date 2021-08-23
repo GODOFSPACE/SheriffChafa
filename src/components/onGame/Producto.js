@@ -2,10 +2,10 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 
-import Tamales from '../../img/cartas/Tamales.png';
-import Pan from '../../img/cartas/Pan.png';
+import Tamales from '../../img/cartas/Tamal.png';
+import PanDeMuerto from '../../img/cartas/PanDeMuerto.png';
 import Aguacate from '../../img/cartas/Aguacate.png';
-import Carnitas from '../../img/cartas/Carnitas.png';
+import Pinata from '../../img/cartas/Pinata.png';
 import Tequila from '../../img/cartas/Tequila.png';
 import Axolote from '../../img/cartas/Axolote.png';
 import Machete from '../../img/cartas/Machete.png';
@@ -31,7 +31,7 @@ export const Producto = ({nombre, columna}) => {
         case 'Pan de Muerto':
             return (
                 <div className={columna}>
-                    <Imagen src = {Pan} alt="Pan"/>
+                    <Imagen src = {PanDeMuerto} alt="PanDeMuerto"/>
                 </div>
                
             )
@@ -45,7 +45,7 @@ export const Producto = ({nombre, columna}) => {
         case 'Carnitas':
             return (
                 <div className={columna}>
-                    <Imagen src = {Carnitas} alt="Carnitas"/>
+                    <Imagen src = {Pinata} alt="Pinata"/>
                 </div>
                 
             )

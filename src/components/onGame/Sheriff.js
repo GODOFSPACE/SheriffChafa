@@ -1,26 +1,36 @@
 import React, { useContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import shortid from 'shortid';
 import { PartyContext } from '../../context/game/PartyContext';
 import { SocketContext } from '../../context/SocketContext';
 import Catrin from '../../img/Catrin.png'
+import { types } from '../../types/types';
 import { Modal } from './Modal';
 import { SelectorPersonaje } from './SelectorPersonaje';
 
 export const Sheriff = () => {
-    const {partyState} = useContext(PartyContext);
+    const {partyState, dispatch} = useContext(PartyContext);
     const {socket} = useContext(SocketContext);
-    const{revisando} = partyState
+    const history = useHistory();
+    const{revisando} = partyState;
 
-    const [examinar, setExaminar] = useState(false)
 
     const ignorar = () => {
-        setExaminar(true);
-        socket.emit('mandar-juicio', { examinar, revisando });
+        socket.emit('mandar-juicio', { examinar: false, revisando });
+        dispatch({
+            type: types.CambiarReady,
+            payload: false
+        })    
+        history.push('/carga');
     }
 
     const revisar = () => {
-        setExaminar(true);
-        socket.emit('mandar-juicio', { examinar, revisando });
+        socket.emit('mandar-juicio', { examinar: true, revisando });
+        dispatch({
+            type: types.CambiarReady,
+            payload: false
+        }) 
+        history.push('/carga');
     }
 
     if(revisando !== null){
