@@ -2,6 +2,8 @@ import React, { useContext } from 'react';
 import styled from '@emotion/styled';
 import { PartyContext } from '../../context/game/PartyContext';
 import { types } from '../../types/types';
+import { SocketContext } from '../../context/SocketContext';
+import { useHistory } from 'react-router-dom';
 
 const ModalContainer = styled.div`
     margin: 0 auto;
@@ -54,11 +56,12 @@ const Aceptar = styled.span`
 
 `;
 
-
 export const Modal = () => {
 
     const {partyState, dispatch} = useContext(PartyContext);
-    const {soborno} = partyState;
+    const {socket} = useContext(SocketContext);
+    const {soborno, revisando} = partyState;
+    const history = useHistory();
 
     const cerrarSoborno = () => {
         dispatch({
@@ -67,13 +70,23 @@ export const Modal = () => {
         })
     }
 
+    const revisar = () => {
+        console.log(soborno);
+        socket.emit('mandar-juicio', { examinar: false, revisando, pago: soborno });
+        dispatch({
+            type: types.CambiarReady,
+            payload: false
+        }) 
+        history.push('/carga');
+    }
+
     return (
         <div>
             <ModalContainer>
                 Parece que alguien quiere darte su sucio dinero
                 <Billete> ${soborno} </Billete>
                 <Rechazar onClick={cerrarSoborno}>Rechazar</Rechazar>
-                <Aceptar>Aceptar</Aceptar>
+                <Aceptar onClick = {revisar} >Aceptar</Aceptar>
             </ModalContainer>
 
 

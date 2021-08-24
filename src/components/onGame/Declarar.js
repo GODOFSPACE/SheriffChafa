@@ -13,10 +13,6 @@ export const Declarar = () => {
         'Pan de Muerto',
         'Aguacate',
         'Carnitas',
-        'Tequila',
-        'Axolote',
-        'Machete',
-        'Petardos'
     ]);
 
     const [contador, setContador] = useState(0);

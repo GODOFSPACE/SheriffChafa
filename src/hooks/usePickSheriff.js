@@ -42,8 +42,6 @@ export const usePickSheriff = () => {
                 payload: sheriff
             });
         }
-
-        console.log(sheriff);
     }
 
     return {

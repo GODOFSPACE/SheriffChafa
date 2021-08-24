@@ -1,37 +1,44 @@
 import React from 'react';
 import { Global, css } from '@emotion/react';
 import styled from '@emotion/styled';
+import CatrinLogo from '../img/Logo2.png';
 
 const Contenido = styled.div`
     margin: 0 auto;
     margin-top: 10rem;
     width: 90%;
-    height: 86rem;
+    height: auto;
+    padding-top: 14rem;
+    padding-bottom: 5rem;
     box-shadow: 0px 0px 33px 10px rgba(0,0,0,0.33);
     background-color: rgba(0,0,0,0.5);
     backdrop-filter: blur(10px);
     border-radius: 5rem;
     @media(max-width: 992px){
+        margin-top: 4rem;
+        padding-top: 4rem;
         width: 100%;
     }
 `;
 
 const Logo = styled.div`
-    background: linear-gradient(183deg, rgba(142,45,226,1) 0%, rgba(74,0,224,1) 100%);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 10rem;
-    border-radius: 50;
-    width: 15rem;
-    height: 15rem;
-    border-radius: 10rem;
-    transform: translateY(-8rem);
+    position: absolute;
+    width: 20rem;
+    height: 20rem;
+    transform: translateY(-24rem);
+    
     @media(max-width: 992px){
         width:  8rem;
         height: 8rem;
         font-size: 5rem;
-        transform: translateY(-4rem);
+        transform: translateY(-8rem);
+    }
+
+    img{
+        width: 100%;
     }
 `;
 
@@ -65,7 +72,7 @@ export const MainPage = ({children}) => {
             <Contenido className="container-fluid">
                 <div className= "row justify-content-center">
                     <Logo className= "col-4">
-                        <i className="fas fa-skull"></i>
+                        <img src={CatrinLogo} alt="Logo" />
                     </Logo>
                 </div>
 

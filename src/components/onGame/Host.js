@@ -50,10 +50,7 @@ export const Host = () => {
         if(ronda > 0){
             socket.emit('siguiente-ronda', partyState);
         }
-    }, [ronda]);
-
-    
-
+    }, [ronda]);  
     return (
         <div>
             <Global styles={css`

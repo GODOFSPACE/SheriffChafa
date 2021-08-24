@@ -1,22 +1,28 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { PartyContext } from "../context/game/PartyContext";
 import { useCartaAleatoria } from "./useCartaAleatoria";
 import { types } from "../types/types";
-
 export const useCobrarMerca = () => {
-    const{dispatch} = useContext(PartyContext);
+    const{ dispatch } = useContext(PartyContext);
     const{elegirCarta} = useCartaAleatoria();
-
-    const noRevisar = (usuario) => {
+    
+    const noRevisar = (usuario, pago) => {
 
         for (let i=0; i <= usuario.personaje.mercancia.length; i++ ){
             if( i < usuario.personaje.mercancia.length){
                 incrementarVentas(usuario, usuario.personaje.mercancia[i].nombre);
             }
             if(i === usuario.personaje.mercancia.length){
+                usuario.personaje.dinero -= pago;
+                dispatch({
+                    type: types.CambiarDineroSheriff,
+                    payload: pago
+                });
+
                 incrementarVentas(usuario, 'CargarInfo');
             }
         }
+
     }
 
     const revisarMercancia = (usuario) => {
@@ -44,7 +50,6 @@ export const useCobrarMerca = () => {
 
 
             if(i === usuario.personaje.mercancia.length){
-                console.log('manda info');
                 incrementarVentas(usuario, 'CargarInfo');
             }
         }

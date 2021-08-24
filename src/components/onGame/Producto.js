@@ -12,7 +12,14 @@ import Machete from '../../img/cartas/Machete.png';
 import Petardo from '../../img/cartas/Petardo.png';
 
 const Imagen = styled.img`
-    width: 90%;
+    width: 80%;
+    @media(min-width: 400px){
+        width: 60%;
+    }
+    @media(min-width: 575px){
+        margin: 2rem 0;
+        width: 40%;
+    }
 `;
 
 

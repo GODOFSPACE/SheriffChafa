@@ -2,57 +2,52 @@ import React, { useEffect, useState } from 'react';
 import shortid from 'shortid';
 import { Producto } from './Producto';
 import styled from '@emotion/styled';
-import { useCartaAleatoria } from '../../hooks/useCartaAleatoria';
+import Refrescar from '../../img/Buttons/Refrescar.svg'
+
 
 const Bolsa = styled.div`
     width: 90%;
-    margin: 2rem auto;
-    height: auto;
-    padding-top: 1rem;
+    height: 19rem;
+    margin: 4rem auto;
+    padding-top: 3rem;
     background-color: #4600D0;
     border-radius: 2rem;
+
+    span{
+        position: absolute;
+        transform: translateY(-5.2rem);
+        font-weight: 900;
+        font-size: 3rem;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.25);
+    }
+
+    @media(min-width: 700px){
+        height: 40rem;
+    }
+
 `;
 
-const Descartada = styled.span`
-    display: block;
-    margin: 0 auto;
-    color: rgba(70,0,208,0.6);
-    font-size: 10rem;
-    position: absolute;
-    transform: translate(3.5rem, -14rem);
+const Imagen = styled.img`
+    margin: 2rem 0;
+    width: 40%;
+`;
+
+const Descartada = styled.div`
+    filter: brightness(0.30);
 `;
 
 export const SelectorCartas = ({cartas}) => {
     
-    const [contador, setContador] = useState(0);
     const [deck, setDeck] = useState([]);
     const [descartes, setDescartes] = useState(0);
 
-    const Atras = () => {
-        if(contador > 0){
-            setContador(contador - 1 );
-        }
-        else{
-            const aux = cartas.length - 1;
-            setContador( aux );
-        }
-    }
-
-    const Siguiente = () => {
-        if(contador < cartas.length - 1) {
-            setContador(contador + 1 );
-        }
-        else{
-            setContador(0);
-        }
-    }
-
-    const Cambiar = () => {
-        if(!cartas[contador].descartada){
+    const Cambiar = (carta) => {
+        console.log('cambio');
+        if(!carta.descartada){
             setDescartes(descartes + 1);
             if(descartes < 5){
-                cartas[contador].descartada = true ;
-                setDeck([ ...deck, cartas[contador]]);
+                carta.descartada = true ;
+                setDeck([ ...deck, carta]);
             }
         }
     }
@@ -67,36 +62,47 @@ export const SelectorCartas = ({cartas}) => {
 
     return(
         <>
-
-                <Bolsa className="row justify-content-center" >
-                    {deck.map( carta => (
+            <div className="row">
+                <div className="col-md-6">
+                    <Bolsa className="row justify-content-center" >
+                        <span>Cambiando cartas</span>
+                        {deck.map( carta => (
                             <Producto key={shortid()} nombre={carta.nombre} columna={'col-4'}/>
-                    ))
-                    }
-                    
-                </Bolsa>
+                        ))
+                        }
 
-            <div className="row">
-                <div className="col-6">
-                    <Producto key={shortid} nombre = {cartas[contador].nombre} columna={''}/>
-                    {cartas[contador].descartada && 
-                        <Descartada className="fas fa-minus-circle"> </Descartada>
-                    }
+                        {deck.length>0 &&
+                            <div className='col-4'>
+                                <Imagen src={Refrescar} alt="Revertir" onClick={eliminarCambios}/>
+                            </div>
+                        }
+                        
+                    </Bolsa>
                 </div>
-                <div className="col-6">
-                    <h2>Carta: {contador+1}</h2>
-                </div>
+                <div className="col-md-6">
+                    <Bolsa className="row justify-content-center">
+                        <span>Tus cartas</span>
+                        {cartas.map( carta => {
+                            if(!carta.descartada){
+                                return(
+                                    <div onClick={() => Cambiar(carta)} key={shortid()} className='col-4'>
+                                        <Producto key={shortid()} nombre={carta.nombre} />
+                                    </div>
+                                )
+                            }
+                            else{
+                                return(
+                                    <Descartada onClick={() => Cambiar(carta)} key={shortid()} className='col-4'> 
+                                        <Producto nombre={carta.nombre}/>
+                                    </Descartada>
+                                )
+                            }
+                        }
+                        )
+                        }
+                    </Bolsa>
+                </div>    
             </div>
-            <div className="row">
-                
-
-                {/* <h2> {cartas[contador].nombre}  </h2> */}
-                <label className="col-3 fas fa-chevron-circle-left" onClick={Atras}></label>
-                <label className="col-3 fas fa-window-close" onClick={Cambiar}></label>
-                <label className="col-3 fas fa-democrat" onClick={eliminarCambios}></label>
-                <label className="col-3 fas fa-chevron-circle-right" onClick={Siguiente}></label>
-            </div>
-
         </>
     )
 }

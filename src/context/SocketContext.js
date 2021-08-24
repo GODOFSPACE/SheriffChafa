@@ -18,7 +18,7 @@ export const SocketProvider = ({ children }) => {
     const { gameRoom } = useContext(GameContext);
     const { online } = gameRoom;
     // const { dispatch } = useContext(PartyContext);
-    const { socket, conectarSocket, desconectarSocket } = useSocket('http://localhost:8080');
+    const { socket, conectarSocket, desconectarSocket } = useSocket('https://pe-catrin.herokuapp.com/');
     const { dispatch } = useContext(PartyContext);
     const {elegirCarta} = useCartaAleatoria();
     const { jugador } = useContext(UsuarioContext);
@@ -145,7 +145,7 @@ export const SocketProvider = ({ children }) => {
 
     //Desplegar veredicto XD
     useEffect(() => {
-        socket?.on( 'vender-mercancias', ( { examinar, revisando } ) => {
+        socket?.on( 'vender-mercancias', ( { examinar, revisando, pago } ) => {
 
             if( revisando.id === jugador.id){
                 dispatch({
@@ -155,16 +155,15 @@ export const SocketProvider = ({ children }) => {
             }
 
             if( examinar ){
-                console.log('examinando');
                 revisarMercancia(revisando);
             }
 
             if( !examinar )
-                noRevisar(revisando);
+                noRevisar(revisando, pago);
         });
     }, [ socket ]);
 
-    //Recibir soborno
+    //Siguiente ronda
     useEffect(() => {
         socket?.on( 'pasar-ronda', async ( party ) => {
 

@@ -23,7 +23,7 @@ const initialState = {
     revision: [],
     vendedores: [],
     revisando: null,
-    soborno: -1,
+    soborno: 0,
     ready: false,
     ronda: 0
 }

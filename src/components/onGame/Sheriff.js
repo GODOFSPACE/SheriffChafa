@@ -16,7 +16,7 @@ export const Sheriff = () => {
 
 
     const ignorar = () => {
-        socket.emit('mandar-juicio', { examinar: false, revisando });
+        socket.emit('mandar-juicio', { examinar: false, revisando, pago: 0 });
         dispatch({
             type: types.CambiarReady,
             payload: false
@@ -25,7 +25,7 @@ export const Sheriff = () => {
     }
 
     const revisar = () => {
-        socket.emit('mandar-juicio', { examinar: true, revisando });
+        socket.emit('mandar-juicio', { examinar: true, revisando, pago: 0 });
         dispatch({
             type: types.CambiarReady,
             payload: false

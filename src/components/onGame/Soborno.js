@@ -146,16 +146,6 @@ export const Soborno = () => {
                         <BotonesSR onClick={() => restar(1)}>-</BotonesSR>
     
                     </div>
-                    {/* <div className="col-4">
-                        <BotonesSR onClick={() => sumar(5)}>+</BotonesSR>
-                        <MonedaBoton> $5 </MonedaBoton>
-                        <BotonesSR onClick={() => restar(5)}>-</BotonesSR>
-                    </div>
-                    <div className="col-4">
-                        <BotonesSR onClick={() => sumar(10)}>+</BotonesSR>
-                        <MonedaBoton> $10 </MonedaBoton>
-                        <BotonesSR onClick={() => restar(10)}>-</BotonesSR>
-                    </div> */}
                 </div>
 
                 <div className="row">

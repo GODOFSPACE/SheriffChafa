@@ -8,6 +8,7 @@ import { SocketContext } from '../context/SocketContext';
 import { usePickSheriff } from '../hooks/usePickSheriff';
 import { useHistory } from 'react-router-dom';
 import { SelectorPersonaje } from './onGame/SelectorPersonaje';
+import Clipboard from 'react-clipboard.js';
 import shortid from 'shortid';
 
 
@@ -28,13 +29,6 @@ const Jugadores = styled.div`
     }
 `;
 
-const TextoCodigo = styled.div`
-    font-weight: 900;
-    font-size: 4rem;
-    text-align: center;
-    margin-top: 3rem;
-`;
-
 const BotonNext = styled.button`
     margin-right: 6rem;
     border-radius: 25px;
@@ -51,6 +45,38 @@ const BotonNext = styled.button`
 
     :hover{
         cursor: pointer;
+    }
+`;
+
+const Sala = styled.div`
+    background-color: #4600D0;
+    border-radius: 25px;
+    width: auto;
+    padding: 1.5rem 2rem 1rem 2rem;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+    font-size: 4rem;
+    color: white;
+    text-align: center;
+    border: none;
+
+    button{
+        background: none;
+        font-family: 'Nunito', sans-serif;
+        border: none;
+        font-weight: 900;
+        font-size: 4rem;
+        color: white;
+        text-align: center;
+        :hover{
+            cursor: pointer;
+        }
+    }
+
+    span{
+        position: absolute;
+        display: block;
+        transform: translate(3rem, -4.5rem);
     }
 `;
 
@@ -84,13 +110,14 @@ export const Loby = () => {
         //Elegir el sheriff de la partida
         ElegirSheriff();
 
-
-
         //Manda los personajes a los jugadores
         socket.emit('iniciar-partida', partyState);
 
-
         history.push('/host');
+    }
+
+    const regresar = () => {
+        history.push('/');
     }
 
     return (
@@ -111,11 +138,16 @@ export const Loby = () => {
             </div>
 
             </Jugadores>
-                <div className="row justify-content-around mt-4">
-                    <TextoCodigo className="col-3">
-                        Codigo de la sala:
-                        {sala}
-                    </TextoCodigo>
+                <div className="row justify-content-around mt-5">
+                    <BotonNext className="col-3" onClick={regresar}>
+                        Regresar
+                    </BotonNext>
+                    <Sala className="col-3">
+                        <span>sala</span>
+                        <Clipboard data-clipboard-text={sala}>
+                            {sala}
+                        </Clipboard>
+                    </Sala>
                     <BotonNext className="col-3" onClick={onClick}>
                         Jugar
                     </BotonNext>

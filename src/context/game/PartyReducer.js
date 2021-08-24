@@ -18,7 +18,7 @@ export const PartyReducer = ( state, action ) => {
                 vendedores:[],
                 revision: [],
                 revisando: null,
-                soborno: -1,
+                soborno: 0,
 
             }
 
@@ -83,7 +83,7 @@ export const PartyReducer = ( state, action ) => {
                 vendedores: [],
                 ready: action.payload,
                 revisando: null,
-                soborno: -1,
+                soborno: 0,
                 ronda: auxRonda,
             }
 

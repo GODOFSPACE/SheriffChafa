@@ -9,7 +9,7 @@ import { SocketContext } from '../../context/SocketContext';
 import { Declarar } from './Declarar';
 import { useHistory } from 'react-router-dom';
 import { Sheriff } from './Sheriff';
-import { Modal } from './Modal';
+import NextBtn from '../../img/Buttons/AcceptButton.png';
 
 const Dinero = styled.div`
     display: inline-block;
@@ -37,18 +37,18 @@ const Moneda = styled.span`
     justify-content: center;
 `;
 
-const Logo = styled.div`
-    background: linear-gradient(183deg, rgba(142,45,226,1) 0%, rgba(74,0,224,1) 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 3rem;
-    border-radius: 50;
-    width: 6rem;
-    height: 6rem;
+const SiguienteLogo = styled.img`
+
     border-radius: 10rem;
-    margin: 0 auto;
-    margin-top: 2rem;
+    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.8);
+    
+    @media(min-width: 200px){
+        width: 90%;
+        box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.8);
+    }
+    @media(min-width: 583px){
+        width: 30%;
+    }
 `;
 
 export const Jugador = () => {
@@ -77,10 +77,6 @@ export const Jugador = () => {
             }
         }
         setFase(fase + 1);
-    }
-
-    const anteriorFase = () => {
-        setFase(fase - 1);
     }
 
     return (
@@ -127,7 +123,7 @@ export const Jugador = () => {
                         
                         {   
                             usuario.personaje.deck.map(carta => (
-                                    <Producto key= {shortid()}  nombre={carta.nombre} columna={'col-6'}/>
+                                    <Producto key= {shortid()}  nombre={carta.nombre} columna={'col-6 col-sm-4'}/>
                             ))
                         }
                     </div>:
@@ -136,7 +132,7 @@ export const Jugador = () => {
                     fase ===2 ? <div className="row justify-content-center">                    
                         {   
                             usuario.personaje.deck.map(carta => (
-                                    <Producto key={shortid()} nombre={carta.nombre} columna={'col-6'}/>
+                                    <Producto key={shortid()} nombre={carta.nombre} columna={'col-6 col-sm-4'}/>
                             ))
                         }
                     </div>:
@@ -149,22 +145,11 @@ export const Jugador = () => {
 
                 {
                     (sheriff.id !== usuario.id && fase!==4) &&
-                    <>
-                        <div className="row justify-content-around">
-                            <div className="col-4">
-                                <Logo className="fas fa-hand-point-left" onClick={anteriorFase}></Logo>
-                            </div>
-                            <div className="col-4">
-                                <Logo className="fas fa-hand-point-right" onClick={siguienteFase}></Logo>
-                            </div>
+                    <div className="row justify-content-center pt-5" >
+                        <div className="col-4"> 
+                            <SiguienteLogo src={NextBtn} alt="Siguiente" onClick={siguienteFase}/>
                         </div>
-
-                        <div className="row justify-content-center">
-                            <div className="col-4">
-                                <Logo className="fas fa-skull"></Logo>
-                            </div>
-                        </div>
-                    </>
+                    </div>
                 }
 
             </div>
