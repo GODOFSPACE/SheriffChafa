@@ -60,6 +60,12 @@ export const PartyReducer = ( state, action ) => {
                 vendedores: [ ...state.vendedores, action.payload ],
             }
 
+        case types.RevelarM:
+            return{
+                ...state,
+                revelar: action.payload
+            }
+
         case types.CambiarDineroSheriff:
             return{
                 ...state,

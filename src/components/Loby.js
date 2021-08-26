@@ -3,12 +3,12 @@ import { MainPage } from './MainPage';
 import styled from '@emotion/styled';
 import { GameContext } from '../context/game/GameContext';
 import { PartyContext } from '../context/game/PartyContext';
-import { UsuariosConectados } from './UsuariosConectados';
 import { SocketContext } from '../context/SocketContext';
 import { usePickSheriff } from '../hooks/usePickSheriff';
 import { useHistory } from 'react-router-dom';
 import { SelectorPersonaje } from './onGame/SelectorPersonaje';
 import Clipboard from 'react-clipboard.js';
+import { motion } from 'framer-motion';
 import shortid from 'shortid';
 
 
@@ -82,9 +82,9 @@ const Sala = styled.div`
 
 const CartaJugador = styled.div`
     padding: 0;
+    margin-bottom: 4rem;
     img{
-        width: 150px;
-        height: 150px;
+        width: 30%;
         margin: 0 auto;
     }
     span{
@@ -123,16 +123,28 @@ export const Loby = () => {
     return (
         <MainPage>
             <Jugadores>
-            <div className="row">
+            <div className="row" >
                 <span>Jugadores </span>
                 {/* Usuarios conectados */}
                 {
                     partyState.jugadores
                         .map( ( jugador ) => (
-                            <CartaJugador key = {jugador.id} className="col-4">
-                                <span>{jugador.nombre}</span>
-                                <SelectorPersonaje key ={shortid()} nombre={jugador.personaje.nombre}/>
-                            </CartaJugador>
+                            
+                                <CartaJugador key = {jugador.id} className="col-4">
+                                    <motion.div 
+                                        key={shortid()}
+                                        initial={{ scale: 0 }}
+                                        animate={{ rotate: 360, scale: 1 }}
+                                        transition={{
+                                            type: "spring",
+                                            stiffness: 260,
+                                            damping: 20
+                                        }} 
+                                    >
+                                        <span>{jugador.nombre}</span>
+                                        <SelectorPersonaje key ={shortid()} nombre={jugador.personaje.nombre}/>
+                                    </motion.div>
+                                </CartaJugador>
                         ))
                 }
             </div>

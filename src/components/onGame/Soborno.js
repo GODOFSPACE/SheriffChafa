@@ -71,21 +71,31 @@ export const Soborno = () => {
 
     const {socket} = useContext(SocketContext);
     const {partyState} = useContext(PartyContext);
-    const {usuario, ready} = partyState;
+    const {usuario, ready, sheriff} = partyState;
     const history = useHistory();
 
     const [soborno, setSoborno] = useState(0);
+    const [activar, setActivar] = useState(true)
 
     const sumar = (cantidad) => {
-        setSoborno(soborno + cantidad);
+        if (soborno < usuario.personaje.dinero){
+            setSoborno(soborno + cantidad);
+            setActivar(true);
+        }
     }
 
     const restar = (cantidad) => {
-        setSoborno(soborno - cantidad);
+        if(soborno > 0){
+            setSoborno(soborno - cantidad);
+            setActivar(true);
+        }
     }
 
     const mandarSoborno = () => {
-        socket.emit('mandar-soborno', soborno );
+        if(soborno > 0){
+            socket.emit('mandar-soborno', {soborno, sheriff: sheriff.id} );
+            setActivar(false);
+        }
     }
 
     useEffect(() => {
@@ -149,13 +159,11 @@ export const Soborno = () => {
                 </div>
 
                 <div className="row">
-                    <div className="col-6">
-                        Cancelar
-                    </div>
-
-                    <div className="col-6" onClick={mandarSoborno}>
-                        Mandar Soborno
-                    </div>
+                    {activar &&
+                        <div className="col-6" onClick={mandarSoborno}>
+                            Mandar Soborno
+                        </div>
+                    }
                 </div>
             </div>
         </div>

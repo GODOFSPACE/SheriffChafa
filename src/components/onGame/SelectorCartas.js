@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import shortid from 'shortid';
 import { Producto } from './Producto';
 import styled from '@emotion/styled';
-import Refrescar from '../../img/Buttons/Refrescar.svg'
+import { motion } from 'framer-motion';
+import Refrescar from '../../img/Buttons/Refrescar.svg';
 
 
 const Bolsa = styled.div`
@@ -42,7 +43,6 @@ export const SelectorCartas = ({cartas}) => {
     const [descartes, setDescartes] = useState(0);
 
     const Cambiar = (carta) => {
-        console.log('cambio');
         if(!carta.descartada){
             setDescartes(descartes + 1);
             if(descartes < 5){
@@ -67,7 +67,18 @@ export const SelectorCartas = ({cartas}) => {
                     <Bolsa className="row justify-content-center" >
                         <span>Cambiando cartas</span>
                         {deck.map( carta => (
-                            <Producto key={shortid()} nombre={carta.nombre} columna={'col-4'}/>
+                            <motion.div key= {shortid()}
+                            className='col-4'
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{
+                            type: "spring",
+                            stiffness: 260,
+                            damping: 20
+                        }}>
+                            <Producto nombre={carta.nombre} columna={''}/>
+                        </motion.div>
+
                         ))
                         }
 

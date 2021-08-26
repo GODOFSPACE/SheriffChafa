@@ -48,6 +48,11 @@ export const Declarar = () => {
 
     return (
         <div>
+
+            <div className="row">
+                <div className="col-12"> Elige una carta </div>
+            </div>
+
             <div className="row justify-content-center mt-5">
                 <Producto key = {shortid} nombre ={carta[contador]} columna = {'col-6'}/>
             </div>

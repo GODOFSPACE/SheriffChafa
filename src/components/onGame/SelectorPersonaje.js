@@ -3,6 +3,8 @@ import Tamalero from '../../img/jugadores/Tamalero.png';
 import Panadero from '../../img/jugadores/Panadero.png';
 import Pinatero from '../../img/jugadores/Pinatero.png';
 import Aguacatera from '../../img/jugadores/Aguacatera.png';
+import Cantinero from '../../img/jugadores/Cantinero.png';
+import Axolotera from '../../img/jugadores/Axolotera.png';
 
 import styled from '@emotion/styled';
 
@@ -30,6 +32,14 @@ export const SelectorPersonaje = ({nombre}) => {
         case 'Aguacatera':
             return (
                     <Imagen src = {Aguacatera} alt="Aguacatera"/>
+            )  
+        case 'Axolotera':
+            return (
+                    <Imagen src = {Axolotera} alt="Aguacatera"/>
+            ) 
+        case 'Cantinero':
+            return (
+                    <Imagen src = {Cantinero} alt="Aguacatera"/>
             ) 
         default: 
             return(

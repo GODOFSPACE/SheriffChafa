@@ -78,7 +78,7 @@ export const SocketProvider = ({ children }) => {
 
     }, [ socket, dispatch ]);
 
-    //Asignar personajes a todos los usuarios
+    //Cambia cartas
     useEffect(() => {
 
         socket?.on( 'guardar-info-jugador', async ( jugador ) => {
@@ -86,6 +86,7 @@ export const SocketProvider = ({ children }) => {
             for( let i = 0; i<jugador.personaje.deck.length; i++ ){
                 if(jugador.personaje.deck[i].descartada)
                     jugador.personaje.deck[i] = elegirCarta(1)[0];
+                jugador.personaje.mercancia = [];
             }
             await socket.emit('refrescar-info-usuario', jugador );
 
@@ -114,10 +115,12 @@ export const SocketProvider = ({ children }) => {
     useEffect(() => {
 
         socket?.on( 'mandar-merca', async ( usuario ) => {
-            await dispatch({
-                type: types.mandarMerca,
-                payload: usuario
-            })
+            if(jugador.id === ''){
+                await dispatch({
+                    type: types.mandarMerca,
+                    payload: usuario
+                })
+            }
         });
     }, [ socket, dispatch ]);
 
@@ -135,11 +138,15 @@ export const SocketProvider = ({ children }) => {
     
     //Recibir soborno
     useEffect(() => {
-        socket?.on( 'recibir-sobrno', async ( soborno ) => {
-            await dispatch({
-                type: types.mandarSoborno,
-                payload: soborno
-            })
+        socket?.on( 'recibir-sobrno', async ( {soborno, sheriff} ) => {
+            if(soborno > 0 ){
+                if(jugador.id === '' || jugador.id === sheriff ){
+                    await dispatch({
+                        type: types.mandarSoborno,
+                        payload: soborno
+                    })
+                }
+            }
         })
     },[socket, dispatch]);
 
@@ -158,8 +165,9 @@ export const SocketProvider = ({ children }) => {
                 revisarMercancia(revisando);
             }
 
-            if( !examinar )
+            if( !examinar ){
                 noRevisar(revisando, pago);
+            }
         });
     }, [ socket ]);
 

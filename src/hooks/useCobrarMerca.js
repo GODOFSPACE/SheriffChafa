@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { PartyContext } from "../context/game/PartyContext";
 import { useCartaAleatoria } from "./useCartaAleatoria";
 import { types } from "../types/types";
@@ -7,6 +7,11 @@ export const useCobrarMerca = () => {
     const{elegirCarta} = useCartaAleatoria();
     
     const noRevisar = (usuario, pago) => {
+
+        dispatch({
+            type: types.RevelarM,
+            payload: false
+        });
 
         for (let i=0; i <= usuario.personaje.mercancia.length; i++ ){
             if( i < usuario.personaje.mercancia.length){
@@ -26,6 +31,11 @@ export const useCobrarMerca = () => {
     }
 
     const revisarMercancia = (usuario) => {
+
+        dispatch({
+            type: types.RevelarM,
+            payload: true
+        });
 
         for (let i=0; i <= usuario.personaje.mercancia.length; i++ ){
 
@@ -104,6 +114,8 @@ export const useCobrarMerca = () => {
     
             case 'CargarInfo':
 
+                usuario.personaje.mercancia = [];
+
                 for( let i = 0; i<usuario.personaje.deck.length; i++ ){
                     if(usuario.personaje.deck[i].descartada)
                         usuario.personaje.deck[i] = elegirCarta(1)[0];
@@ -114,7 +126,6 @@ export const useCobrarMerca = () => {
                     payload: usuario
                 });
             break;
-    
             default:
                 console.log("Default");
           

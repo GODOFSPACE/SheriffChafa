@@ -47,10 +47,14 @@ export const Host = () => {
     //Detectar numero de ronda
 
     useEffect(() => {
-        if(ronda > 0){
+        if(ronda > 0)
             socket.emit('siguiente-ronda', partyState);
+        else if (ronda === -1){
+            setFase(4);
         }
     }, [ronda]);  
+
+
     return (
         <div>
             <Global styles={css`
@@ -87,6 +91,10 @@ export const Host = () => {
             }
             {fase === 3 &&
                 <JuicioFinal fase = {setFase}/>
+            }
+            {
+                fase === 4 &&
+                <h1>MUSEEEEE</h1>
             }
             
         </div>

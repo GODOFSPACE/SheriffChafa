@@ -12,6 +12,7 @@ export const types = {
     guardarVentas: '[GAME] Guardar Ventas',
     CambiarDineroSheriff: '[GAME] Cambiar Dinero Sheriff',
     CambiarReady: '[GAME] Cambiar a ready',
-    ReiniciarTurno: '[GAME] Reiniciar turno'
+    ReiniciarTurno: '[GAME] Reiniciar turno',
+    RevelarM: '[GAME] Revelar Mercancia'
 
 }

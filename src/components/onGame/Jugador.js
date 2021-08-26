@@ -9,6 +9,7 @@ import { SocketContext } from '../../context/SocketContext';
 import { Declarar } from './Declarar';
 import { useHistory } from 'react-router-dom';
 import { Sheriff } from './Sheriff';
+import { motion } from 'framer-motion';
 import NextBtn from '../../img/Buttons/AcceptButton.png';
 
 const Dinero = styled.div`
@@ -51,10 +52,16 @@ const SiguienteLogo = styled.img`
     }
 `;
 
+const Texto = styled.span`
+    font-weight: 900;
+    font-size: 3rem;
+    text-align: center;
+`;
+
 export const Jugador = () => {
 
     const { partyState } = useContext(PartyContext);
-    const { usuario, revisando, sheriff, ready } = partyState;
+    const { usuario, revisando, sheriff } = partyState;
     const { socket } = useContext(SocketContext);
     const history = useHistory();
 
@@ -120,16 +127,39 @@ export const Jugador = () => {
                     :
                     fase===0 ?
                     <div className="row justify-content-center">
+                        <div className="col-12 my-4"> 
+                            <Texto> Estás son tus cartas </Texto>
+                        </div>
                         
                         {   
                             usuario.personaje.deck.map(carta => (
-                                    <Producto key= {shortid()}  nombre={carta.nombre} columna={'col-6 col-sm-4'}/>
+                                    <motion.div key= {shortid()}
+                                        className='col-6 col-sm-4'
+                                        initial={{ scale: 0 }}
+                                        animate={{ scale: 1 }}
+                                        transition={{
+                                        type: "spring",
+                                        stiffness: 260,
+                                        damping: 20
+                                    }}>
+                                        <Producto  nombre={carta.nombre} columna={''}/>
+                                    </motion.div>
                             ))
                         }
                     </div>:
                     fase===1 ?
-                    <SelectorCartas key={shortid()} cartas ={usuario.personaje.deck}/>:
-                    fase ===2 ? <div className="row justify-content-center">                    
+                        <>
+                            <div className="row">
+                                <div className="col-12 my-4"> 
+                                    <Texto> Cambiar cartas </Texto>
+                                </div>
+                            </div>
+                            <SelectorCartas key={shortid()} cartas ={usuario.personaje.deck}/>
+                        </>:
+                    fase ===2 ? <div className="row justify-content-center">  
+                            <div className="col-12 my-4"> 
+                                    <Texto> Cartas actualizadas </Texto>
+                            </div>
                         {   
                             usuario.personaje.deck.map(carta => (
                                     <Producto key={shortid()} nombre={carta.nombre} columna={'col-6 col-sm-4'}/>
@@ -137,7 +167,14 @@ export const Jugador = () => {
                         }
                     </div>:
                     fase==3 ?
-                    <SelectorCartas key={shortid()} cartas ={usuario.personaje.deck}/>:
+                    <>
+                    <div className="row">
+                        <div className="col-12 my-4"> 
+                            <Texto> Vender Cartas </Texto>
+                        </div>
+                    </div>
+                    <SelectorCartas key={shortid()} cartas ={usuario.personaje.deck}/>
+                    </>:
                     fase===4 ? <Declarar />:
                     <h1>Error XD</h1>
                     

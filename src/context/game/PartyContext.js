@@ -25,7 +25,8 @@ const initialState = {
     revisando: null,
     soborno: 0,
     ready: false,
-    ronda: 0
+    ronda: 0,
+    revelar: false
 }
 
 export const PartyProvider = ({ children }) => {

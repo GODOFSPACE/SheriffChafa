@@ -74,6 +74,10 @@ export const Modal = () => {
         console.log(soborno);
         socket.emit('mandar-juicio', { examinar: false, revisando, pago: soborno });
         dispatch({
+            type: types.mandarSoborno,
+            payload: 0
+        })
+        dispatch({
             type: types.CambiarReady,
             payload: false
         }) 

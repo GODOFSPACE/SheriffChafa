@@ -7,6 +7,36 @@ import Catrin from '../../img/Catrin.png'
 import { types } from '../../types/types';
 import { Modal } from './Modal';
 import { SelectorPersonaje } from './SelectorPersonaje';
+import Logo from '../../img/Logo2.png';
+
+import {
+    motion,
+    useMotionValue,
+    useTransform,
+  } from "framer-motion";
+
+import styled from '@emotion/styled';
+
+const Fondo = styled.div`
+    margin:2rem auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img{
+        width: 200px;
+        margin: 5rem;
+    }
+`;
+
+const Imagen = styled.div`
+    margin: 0 auto;
+    width: 200px;
+
+    img{
+        width: 100%;
+    }
+`;
 
 export const Sheriff = () => {
     const {partyState, dispatch} = useContext(PartyContext);
@@ -33,14 +63,63 @@ export const Sheriff = () => {
         history.push('/carga');
     }
 
+    const x = useMotionValue(0)
+
+    const swipeConfidenceThreshold = 10000;
+    const swipePower = (offset , velocity) => {
+      return Math.abs(offset) * velocity;
+    };
+  const background = useTransform(
+    x,
+    [-100, 0, 100],
+    ["#E11212", "#4600D0", "#1DDF90"]
+  )
+
+  const paginate = (newDirection) => {
+    if(newDirection === -1)
+    ignorar();
+    else if (newDirection === 1)
+    revisar();
+  };
+
+  if(revisando !== null){
+  return (
+    <>
+    {partyState.soborno>0 && <Modal /> }
+    <h1>¿Revisar a {revisando.nombre}?</h1>
+    <Imagen>
+        <SelectorPersonaje key={shortid()} nombre={revisando.personaje.nombre}/>
+    </Imagen>
+      <Fondo>
+        <motion.div style={{ background }} className="botonMovil">
+        <motion.img
+            src={Logo} alt=""
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+
+            onDragEnd={(e, { offset, velocity }) => {
+                const swipe = swipePower(offset.x, velocity.x);
+                if (swipe < -swipeConfidenceThreshold) {
+                  paginate(1);
+                } else if (swipe > swipeConfidenceThreshold) {
+                  paginate(-1);
+                }
+              }}
+
+            style={{ x }}
+        >
+        </motion.img>
+        </motion.div>
+
+      </Fondo>
+    </>
+  )
+}
+
     if(revisando !== null){
         return(
             <div>
-                {partyState.soborno>0 && <Modal /> }
-                <h1>¿Revisar a {revisando.nombre}?</h1>
                 <SelectorPersonaje key={shortid()} nombre={revisando.personaje.nombre}/>
-                <div onClick={ignorar}> Te ignoro XD </div>
-                <div onClick={revisar}>Mamaste PRRO :v</div>
             </div>
         )
     }

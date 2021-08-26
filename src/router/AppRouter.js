@@ -13,6 +13,7 @@ import {
     Redirect,
     Route
 } from 'react-router-dom';
+import { PruebaAnim } from '../components/PruebaAnim';
 
 export const AppRouter = () => {
     return(
