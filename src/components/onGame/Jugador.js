@@ -183,8 +183,8 @@ export const Jugador = () => {
                 {
                     (sheriff.id !== usuario.id && fase!==4) &&
                     <div className="row justify-content-center pt-5" >
-                        <div className="col-4"> 
-                            <SiguienteLogo src={NextBtn} alt="Siguiente" onClick={siguienteFase}/>
+                        <div className="col-4">
+                                <SiguienteLogo src={NextBtn} alt="Siguiente" onClick={siguienteFase}/>
                         </div>
                     </div>
                 }

@@ -65,6 +65,12 @@ const IlegalesVendidas = styled.div`
     text-align: center;
 `;
 
+const CartasMerca = styled.div`
+    font-weight: 900;
+    font-size: 50rem;
+    text-align: center;
+    margin: 4rem 0;
+`;
 
 export const JuicioFinal = ({fase}) => {
     
@@ -104,10 +110,12 @@ export const JuicioFinal = ({fase}) => {
     }
 
     const contarCategorias = () => {
-        for(let i = 0;i< revision[contador].personaje.mercancia.length - 1; i++){
+        let aux = 0
+        for(let i = 0;i< revision[contador].personaje.mercancia.length; i++){
             if(revision[contador].personaje.mercancia[i].categoria === 'legal')
-                setLegal(legal+1);
+                aux++;
         }
+        return aux;
     }
 
     
@@ -143,8 +151,8 @@ export const JuicioFinal = ({fase}) => {
                 setLoop(revision[contador].personaje.mercancia.length - 1);
             }
             else{
+                // contarCategorias();
                 setEstado('MostrarMultiplicador');
-                contarCategorias();
                 setLoop(2);
             }
         }
@@ -154,10 +162,19 @@ export const JuicioFinal = ({fase}) => {
     switch(estado) {
         case 'MostrarJugador':
             return (
-                <Contenedor>
-                    <h1> Enjuiciando a: {revision[contador].nombre} </h1>
-                    <SelectorPersonaje key = {shortid()} nombre = {revision[contador].personaje.nombre} />
-                </Contenedor>
+                <div className="container">
+                    <div className="row justify-content-center">
+                        <div className="col-4">
+                            <Contenedor>
+                                <h1> Enjuiciando a: {revision[contador].nombre} </h1>
+                                <SelectorPersonaje key = {shortid()} nombre = {revision[contador].personaje.nombre} />
+                            </Contenedor>
+                        </div>
+                        <CartasMerca className="col-4">
+                            X{revision[contador].personaje.mercancia.length}
+                        </CartasMerca>
+                    </div>
+                </div>
             )
         
         case 'MostrarCartas':
@@ -196,10 +213,10 @@ export const JuicioFinal = ({fase}) => {
                     
                     <div className="row justify-content-around">
                         <LegalesVendidas className="col-4">
-                            x{legal}    
+                            x   {contarCategorias()}
                         </LegalesVendidas>
                         <IlegalesVendidas className="col-4">
-                            x{revision[contador].personaje.mercancia.length - legal}
+                            x{revision[contador].personaje.mercancia.length - contarCategorias()}
                         </IlegalesVendidas>
                     </div>
                 </div>

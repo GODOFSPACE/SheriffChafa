@@ -81,7 +81,7 @@ export const PartyReducer = ( state, action ) => {
         case types.ReiniciarTurno:
             const auxCatrin = state.jugadores.filter(player => player.id === state.sheriff.id)[0];
             auxCatrin.personaje.dinero += state.sheriff.dinero;
-            const auxRonda = state.ronda === (state.jugadores.length * 2) ? -1 : state.ronda + 1;
+            const auxRonda = state.ronda === (state.jugadores.length -1) ? -1 : state.ronda + 1;
             return{
                 ...state,
                 jugadores: [...state.vendedores, auxCatrin ],

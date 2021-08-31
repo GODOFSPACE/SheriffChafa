@@ -31,16 +31,36 @@ export const useCobrarMerca = () => {
     }
 
     const revisarMercancia = (usuario) => {
-
+        let hayIlegal = false;
         dispatch({
             type: types.RevelarM,
             payload: true
         });
 
-        for (let i=0; i <= usuario.personaje.mercancia.length; i++ ){
+        for(let i=0; i<usuario.personaje.mercancia.length; i++){
+            if(usuario.personaje.mercancia[i].categoria === 'ilegal')
+                hayIlegal = true;
+        }
 
-            if( i < usuario.personaje.mercancia.length){
-                if( usuario.personaje.mercancia[i].nombre === usuario.personaje.declaracion){
+        if(hayIlegal){
+            for (let i=0; i <= usuario.personaje.mercancia.length; i++ ){
+                if( i < usuario.personaje.mercancia.length && usuario.personaje.mercancia[i].categoria === 'ilegal'){
+                    usuario.personaje.dinero -= 4;
+                    dispatch({
+                        type: types.CambiarDineroSheriff,
+                        payload: 4
+                    });
+                    if(usuario.personaje.mercancia[i].nombre === usuario.personaje.declaracion){
+                        incrementarVentas(usuario, usuario.personaje.mercancia[i].nombre);
+                    }
+                }
+                if(i === usuario.personaje.mercancia.length)
+                    incrementarVentas(usuario, 'CargarInfo');
+            }
+        }
+        else{
+            for (let i=0; i <= usuario.personaje.mercancia.length; i++ ){
+                if( i < usuario.personaje.mercancia.length && usuario.personaje.mercancia[i].nombre === usuario.personaje.declaracion ){
                     incrementarVentas(usuario, usuario.personaje.mercancia[i].nombre);
                     usuario.personaje.dinero += 2;
                     dispatch({
@@ -48,22 +68,10 @@ export const useCobrarMerca = () => {
                         payload: -2
                     });
                 }
-    
-                else if( usuario.personaje.mercancia[i].categoria === 'ilegal' ){
-                    usuario.personaje.dinero -= 4;
-                    dispatch({
-                        type: types.CambiarDineroSheriff,
-                        payload: 4
-                    });
-                }
-            }
-
-
-            if(i === usuario.personaje.mercancia.length){
-                incrementarVentas(usuario, 'CargarInfo');
+                if(i === usuario.personaje.mercancia.length)
+                    incrementarVentas(usuario, 'CargarInfo');
             }
         }
-
     }
 
 

@@ -40,7 +40,6 @@ export const useCartaAleatoria = () => {
 
         tarjetas.map(tarjeta => {   /*Se mamo pinche juegazo*/
             if(tarjeta.nombre === carta[0]){ //disminuye la cantidad de tarjetas hasta 0
-                tarjeta.cantidad--;
                 if(tarjeta.cantidad === 0) {//si la cantidad es 0 la marca vacía
                     tarjeta.vacio=true;
                 }

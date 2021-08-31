@@ -24,16 +24,13 @@ const Imagen = styled.img`
 
 
 export const Producto = ({nombre, columna}) => {
-
     const caso = nombre;
-
     switch(caso){
         case 'Tamales': 
             return (
                 <div className={columna}>
                     <Imagen src = {Tamales} alt="Tamales"/>
                 </div>
-               
             )
         case 'Pan de Muerto':
             return (

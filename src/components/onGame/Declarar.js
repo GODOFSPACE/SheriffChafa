@@ -4,6 +4,28 @@ import { PartyContext } from '../../context/game/PartyContext';
 import { SocketContext } from '../../context/SocketContext';
 import { Producto } from './Producto';
 import { useHistory } from 'react-router';
+import styled from '@emotion/styled';
+const Bolsa = styled.div`
+    width: 90%;
+    height: 19rem;
+    margin: 4rem auto;
+    padding-top: 3rem;
+    background-color: #4600D0;
+    border-radius: 2rem;
+
+    span{
+        position: absolute;
+        transform: translateY(-5.2rem);
+        font-weight: 900;
+        font-size: 3rem;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.25);
+    }
+
+    @media(min-width: 700px){
+        height: 40rem;
+    }
+
+`;
 
 
 export const Declarar = () => {
@@ -18,6 +40,7 @@ export const Declarar = () => {
     const [contador, setContador] = useState(0);
     const {partyState} = useContext(PartyContext);
     const {usuario} = partyState;
+    const {personaje:{mercancia}} = usuario;
     const {socket} = useContext(SocketContext);
     const history = useHistory();
     const Retroceso = () => {
@@ -48,9 +71,21 @@ export const Declarar = () => {
 
     return (
         <div>
+            <Bolsa className="row justify-content-center">
+                <span>Tus cartas</span>
+                {mercancia.map( carta => {
+                    return(
+                        <div key={shortid()} className='col-4'>
+                            <Producto key={shortid()} nombre={carta.nombre} />
+                         </div>
+                    )
+                }
+                )
+                }
+            </Bolsa>
 
             <div className="row">
-                <div className="col-12"> Elige una carta </div>
+                <div className="col-12"> Elige una carta para declarar</div>
             </div>
 
             <div className="row justify-content-center mt-5">

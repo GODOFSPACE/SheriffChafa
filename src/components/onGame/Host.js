@@ -6,6 +6,7 @@ import { ImprimirJugadores } from '../Host/ImprimirJugadores';
 import { PartyContext } from '../../context/game/PartyContext';
 import { JuicioFinal } from '../Host/JuicioFinal';
 import {SocketContext} from '../../context/SocketContext.js';
+import { Ganador } from '../Host/Ganador';
 
 export const Host = () => {
 
@@ -94,7 +95,7 @@ export const Host = () => {
             }
             {
                 fase === 4 &&
-                <h1>MUSEEEEE</h1>
+                <Ganador />
             }
             
         </div>
