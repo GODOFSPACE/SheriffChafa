@@ -20,7 +20,7 @@ const Contenedor = styled.div`
 
 const CartasJugador = styled.div`
     width: 100%;
-    height: 100vh;
+    height: 80vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -66,10 +66,21 @@ const IlegalesVendidas = styled.div`
 `;
 
 const CartasMerca = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50rem;
+    height: 50rem;
     font-weight: 900;
-    font-size: 50rem;
+    font-size: 30rem;
     text-align: center;
-    margin: 4rem 0;
+    margin: 12rem 0rem 0rem 15rem;
+    background-color: #DB9BE2;
+    border-radius: 3rem;
+    border: 2rem solid #711DDF;
+    
+
+
 `;
 
 export const JuicioFinal = ({fase}) => {
@@ -122,7 +133,7 @@ export const JuicioFinal = ({fase}) => {
     useEffect(() => {
         if(loop >= 0){
 
-            let timer = setTimeout(()=> disminuirTiempo() , 3000);
+            let timer = setTimeout(()=> disminuirTiempo() , 1500);
 
             return () => {
                 clearTimeout(timer);
@@ -171,7 +182,7 @@ export const JuicioFinal = ({fase}) => {
                             </Contenedor>
                         </div>
                         <CartasMerca className="col-4">
-                            X{revision[contador].personaje.mercancia.length}
+                            <span>X{revision[contador].personaje.mercancia.length}</span>
                         </CartasMerca>
                     </div>
                 </div>
@@ -180,7 +191,7 @@ export const JuicioFinal = ({fase}) => {
         case 'MostrarCartas':
             return (
                 <>
-                <TextoJuicio>Revisando Mercancia</TextoJuicio>
+                <TextoJuicio>Revisando Mercancia ...</TextoJuicio>
                 <CartasJugador>
                     <motion.div key= {shortid()}
                         className='col-6 col-sm-4'

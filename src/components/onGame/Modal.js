@@ -16,8 +16,15 @@ const ModalContainer = styled.div`
     box-shadow: rgba(0,0,0,0.35) 0px 5px 15px;
     padding: 25px;
     color: #292929;
-
     font-size: 3rem;
+
+    @media (min-width: 500px){
+        font-size: 2.5rem;
+        width: 25rem;
+        height: 50rem;
+        margin-right: 2rem;
+        padding: 0.5rem, 1rem;
+    }
 `;
 
 const Billete = styled.span`
@@ -35,6 +42,9 @@ const Billete = styled.span`
     color: #212121;
     font-weight: 900;
     font-size: 5rem;
+    :hover{
+        cursor: default;
+    }
 `;
 
 const Rechazar = styled.span`
@@ -45,7 +55,17 @@ const Rechazar = styled.span`
     margin-right: 3rem;
     color: white;
     padding: 0.5rem;
-
+    :hover{
+        cursor: pointer;
+    }
+    @media (min-width: 500px){
+        font-size: 1.8rem;
+        width: 10rem;
+        height: 3.5rem;
+        margin-right: 2rem;
+        padding: 0.5rem, 1rem;
+        margin-bottom: 1.5rem;
+    }
 `;
 const Aceptar = styled.span`
     background-color: #1DDF90;
@@ -53,7 +73,17 @@ const Aceptar = styled.span`
     border-radius: 1rem;
     color: white;
     padding: 0.5rem;
+    :hover{
+        cursor: pointer;
+    }
 
+    @media (min-width: 500px){
+        font-size: 1.8rem;
+        width: 10rem;
+        height: 3.5rem;
+        margin-right: 2rem;
+        padding: 0.5rem, 1rem;
+    }
 `;
 
 export const Modal = () => {

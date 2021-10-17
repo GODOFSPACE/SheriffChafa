@@ -25,7 +25,7 @@ const initialState = {
     revisando: null,
     soborno: 0,
     ready: false,
-    ronda: 0,
+    ronda: -1,
     revelar: false
 }
 

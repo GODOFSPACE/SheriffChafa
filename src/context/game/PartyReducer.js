@@ -4,10 +4,15 @@ import { types } from "../../types/types";
 export const PartyReducer = ( state, action ) => {
     switch ( action.type ){
         case types.usuariosCargados:
-            return {
-                ...state,
-                jugadores: [ ...state.jugadores, action.payload ]
-            }
+            if(state.ronda === -1 && state.jugadores.length <= 6)
+                return {
+                    ...state,
+                    jugadores: [ ...state.jugadores, action.payload ]
+                }
+            else
+                return{
+                    ...state
+                }
 
         case types.cargarJugador:
             return {
@@ -20,6 +25,11 @@ export const PartyReducer = ( state, action ) => {
                 revisando: null,
                 soborno: 0,
 
+            }
+        case types.IniciarRonda:
+            return{
+                ...state,
+                ronda: 0
             }
 
         case types.elegirSheriff:
@@ -81,7 +91,7 @@ export const PartyReducer = ( state, action ) => {
         case types.ReiniciarTurno:
             const auxCatrin = state.jugadores.filter(player => player.id === state.sheriff.id)[0];
             auxCatrin.personaje.dinero += state.sheriff.dinero;
-            const auxRonda = state.ronda === (state.jugadores.length -1) ? -1 : state.ronda + 1;
+            const auxRonda = state.ronda === (state.jugadores.length*2 -1) ? -1 : state.ronda + 1;
             return{
                 ...state,
                 jugadores: [...state.vendedores, auxCatrin ],
@@ -91,6 +101,13 @@ export const PartyReducer = ( state, action ) => {
                 revisando: null,
                 soborno: 0,
                 ronda: auxRonda,
+            }
+
+        case types.EliminarJugador:
+            const auxJugadores = state.jugadores.filter(player => player.id !== action.payload);
+            return{
+                ...state,
+                jugadores: [auxJugadores]
             }
 
         default:

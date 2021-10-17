@@ -15,6 +15,23 @@ const Dinero = styled.div`
     font-weight: 900;
     text-align: center;
     transform: translateX(1rem);
+    :hover{
+        cursor: default ;
+    }
+`;
+
+const MandarBoton = styled.span`
+    background-color: #1DDF90;;
+    display: inline-block;
+    border-radius: 1rem;
+    margin-top: 5rem;
+    margin-right: 3rem;
+    color: white;
+    padding: 0.5rem;
+    :hover{
+        cursor: pointer;
+    }
+    
 `;
 
 const Moneda = styled.span`
@@ -29,13 +46,19 @@ const Moneda = styled.span`
     transform: translateX(-1rem);
     align-items: center;
     justify-content: center;
+    :hover{
+        cursor: default;
+    }
 `;
 
 const Billete = styled.span`
     background-color: #97DCB7;
     border: 1rem solid #1DDF90 ;
     border-radius: 1rem;
-    width: 80%;
+    width: 35rem;
+    @media(max-width: 600px){
+        width: 80%;
+    }
     height: 120px;
     display: flex;
     align-items: center;
@@ -43,6 +66,9 @@ const Billete = styled.span`
     color: #212121;
     font-weight: 900;
     font-size: 5rem;
+    :hover{
+        cursor: default;
+    }
 `;
 const MonedaBoton = styled.div`
     background-color: #E3CE0D;
@@ -55,13 +81,15 @@ const MonedaBoton = styled.div`
     color: #292929;
     font-weight: 900;
     font-size: 4rem;
+    margin: auto;   
+    :hover{
+        cursor: default;
+    }
 `;
 const BotonesSR = styled.span`
-
     color: #292929;
     font-weight: 900;
     font-size: 5rem;
-
     :hover{
         cursor: pointer;
     }
@@ -77,14 +105,14 @@ export const Soborno = () => {
     const [soborno, setSoborno] = useState(0);
     const [activar, setActivar] = useState(true)
 
-    const sumar = (cantidad) => {
+    function sumar (cantidad){
         if (soborno < usuario.personaje.dinero){
             setSoborno(soborno + cantidad);
             setActivar(true);
         }
     }
 
-    const restar = (cantidad) => {
+    function restar (cantidad) {
         if(soborno > 0){
             setSoborno(soborno - cantidad);
             setActivar(true);
@@ -161,7 +189,7 @@ export const Soborno = () => {
                 <div className="row">
                     {activar &&
                         <div className="col-6" onClick={mandarSoborno}>
-                            Mandar Soborno
+                            <MandarBoton>Mandar Soborno</MandarBoton>
                         </div>
                     }
                 </div>

@@ -6,6 +6,9 @@ import { UsuarioProvider } from './context/UsuariosContext';
 import { AppRouter } from './router/AppRouter';
 import './styles/animaciones.css';
 export const GameApp = () => {
+    window.onbeforeunload = function() {
+        return "¿Desea recargar la página web?";
+      };
     return (
         <UsuarioProvider>
             <PartyProvider>

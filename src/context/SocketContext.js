@@ -175,8 +175,6 @@ export const SocketProvider = ({ children }) => {
     useEffect(() => {
         socket?.on( 'pasar-ronda', async ( party ) => {
 
-            console.log(party);
-
             await dispatch({
                 type: types.cargarJugador,
                 payload: party
@@ -190,6 +188,16 @@ export const SocketProvider = ({ children }) => {
 
         })
     },[socket, dispatch]);
+
+    // //Eliminar jugador del arreglo
+    // useEffect(() => {
+    //     socket?.on( 'eliminar-jugador', async ( playerID ) =>{
+    //         await dispatch({
+    //             type: types.EliminarJugador,
+    //             payload: playerID
+    //         })
+    //     })
+    // },[socket, dispatch]); 
 
     return (
         <SocketContext.Provider value={{ socket, online }}>

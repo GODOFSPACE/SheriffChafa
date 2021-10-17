@@ -7,7 +7,7 @@ import Catrin from '../../img/Catrin.png'
 import { types } from '../../types/types';
 import { Modal } from './Modal';
 import { SelectorPersonaje } from './SelectorPersonaje';
-import Logo from '../../img/Logo2.png';
+import Logo from '../../img/Buttons/Lupa.png';
 
 import {
     motion,
@@ -26,6 +26,10 @@ const Fondo = styled.div`
     img{
         width: 200px;
         margin: 5rem;
+        @media(max-width: 500px){
+          margin: 2rem;
+          width:80px
+        }
     }
 `;
 
@@ -36,6 +40,24 @@ const Imagen = styled.div`
     img{
         width: 100%;
     }
+`;
+
+const Texto = styled.div`
+  font-size: 10rem;
+  margin: 0 4rem;
+  font-weight: 900;
+  @media(max-width: 500px){
+    margin: 0 2rem;
+    font-size: 3rem;
+  }
+`;
+
+const CatrinImg = styled.img`
+  width: 18%;
+  height: 18%;
+  @media(max-width: 500px){
+    width: 70%;
+  }
 `;
 
 export const Sheriff = () => {
@@ -91,6 +113,7 @@ export const Sheriff = () => {
         <SelectorPersonaje key={shortid()} nombre={revisando.personaje.nombre}/>
     </Imagen>
       <Fondo>
+        <Texto>No</Texto>
         <motion.div style={{ background }} className="botonMovil">
         <motion.img
             src={Logo} alt=""
@@ -100,9 +123,9 @@ export const Sheriff = () => {
             onDragEnd={(e, { offset, velocity }) => {
                 const swipe = swipePower(offset.x, velocity.x);
                 if (swipe < -swipeConfidenceThreshold) {
-                  paginate(1);
-                } else if (swipe > swipeConfidenceThreshold) {
                   paginate(-1);
+                } else if (swipe > swipeConfidenceThreshold) {
+                  paginate(1);
                 }
               }}
 
@@ -110,6 +133,7 @@ export const Sheriff = () => {
         >
         </motion.img>
         </motion.div>
+        <Texto>Si</Texto>
 
       </Fondo>
     </>
@@ -126,8 +150,8 @@ export const Sheriff = () => {
 
     return (
         <div>
-            <h1>El Catrin te ah elegido</h1>
-            <img src={Catrin} alt="Catrin"></img>
+            <h1>El Catrín te ha elegido</h1>
+            <CatrinImg src={Catrin} alt="Catrin"></CatrinImg>
         </div>
     )
 }

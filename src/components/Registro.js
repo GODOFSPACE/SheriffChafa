@@ -25,6 +25,7 @@ const InfoUser = styled.input`
     background-color: rgba(0,0,0,0.33);
     border: none;
     margin-top: 2.5rem;
+    text-align: center;
     
     font-family: 'Nunito', sans-serif;
     font-weight: 400;
@@ -103,7 +104,6 @@ export const Registro = () => {
 
     const onChange = ({ target }) =>{
 		const { name, value } = target;
-		
 		setDatos({
 			...datos,
 			[name]: value
@@ -114,8 +114,7 @@ export const Registro = () => {
 
     const onSubmit = ev => {
         ev.preventDefault();
-        console.log('Subir');
-        GuardarInfo(nombre, sala);
+        GuardarInfo(nombre, sala.toUpperCase().trim()); //Mandar informacion de sala en mayus
         history.push('/carga');
     }
 
@@ -131,7 +130,7 @@ export const Registro = () => {
                 </div>
 
                 <div className="row justify-content-center">
-                    <InfoUser className="col-xl-6 col-10" type="text" name="sala" value={datos.sala} onChange={onChange} />
+                    <InfoUser className="col-xl-6 col-10"  type="text" maxLength="5"  name="sala" value={datos.sala.toUpperCase().trim()} onChange={onChange} />
                 </div>
 
                 <div className="row justify-content-center">
@@ -139,7 +138,7 @@ export const Registro = () => {
                 </div>
 
                 <div className="row justify-content-center">
-                    <InfoUser className="col-xl-6 col-10" type="text" name="nombre" value={datos.nombre} onChange={onChange}/>
+                    <InfoUser className="col-xl-6 col-10" type="text" name="nombre" maxLength="9" value={datos.nombre} onChange={onChange}/>
                 </div>
             </FormularioRegistro>
                 <div className="row justify-content-between">

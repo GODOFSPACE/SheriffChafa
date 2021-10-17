@@ -15,9 +15,12 @@ export const useCobrarMerca = () => {
 
         for (let i=0; i <= usuario.personaje.mercancia.length; i++ ){
             if( i < usuario.personaje.mercancia.length){
+                if(usuario.personaje.mercancia[i].categoria === 'ilegal'){
+                    incrementarVentas(usuario, 'Ilegales');
+                }
                 incrementarVentas(usuario, usuario.personaje.mercancia[i].nombre);
             }
-            if(i === usuario.personaje.mercancia.length){
+            else if(i === usuario.personaje.mercancia.length){
                 usuario.personaje.dinero -= pago;
                 dispatch({
                     type: types.CambiarDineroSheriff,
@@ -54,7 +57,7 @@ export const useCobrarMerca = () => {
                         incrementarVentas(usuario, usuario.personaje.mercancia[i].nombre);
                     }
                 }
-                if(i === usuario.personaje.mercancia.length)
+                else if(i === usuario.personaje.mercancia.length)
                     incrementarVentas(usuario, 'CargarInfo');
             }
         }
@@ -117,6 +120,11 @@ export const useCobrarMerca = () => {
             
             case 'Petardos':          
                 usuario.personaje.ventas.petardos++;   
+    
+            break;
+
+            case 'Ilegales':          
+                usuario.personaje.ventas.ilegales++;   
     
             break;
     

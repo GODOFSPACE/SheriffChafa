@@ -13,6 +13,8 @@ export const types = {
     CambiarDineroSheriff: '[GAME] Cambiar Dinero Sheriff',
     CambiarReady: '[GAME] Cambiar a ready',
     ReiniciarTurno: '[GAME] Reiniciar turno',
-    RevelarM: '[GAME] Revelar Mercancia'
+    RevelarM: '[GAME] Revelar Mercancia',
+    EliminarJugador: '[GAME] Eliminar Jugador',
+    IniciarRonda: '[GAME] Iniciar Ronda'
 
 }

@@ -11,6 +11,8 @@ import { useHistory } from 'react-router-dom';
 import { Sheriff } from './Sheriff';
 import { motion } from 'framer-motion';
 import NextBtn from '../../img/Buttons/AcceptButton.png';
+import ClickUI from '../../audio/ClickUI.mp3'
+import { Howl } from 'howler';
 
 const Dinero = styled.div`
     display: inline-block;
@@ -72,7 +74,15 @@ export const Jugador = () => {
             history.push('/soborno');
     }, [revisando]);
 
+    const ReproducirClick = () => {
+        const sound = new Howl({
+            src: ClickUI
+        });
+        sound.play();
+    }
+
     const siguienteFase = () => {
+        ReproducirClick();
         if(fase===1){
             socket.emit( 'cambiar-jugador-info', usuario );
         }
@@ -175,7 +185,7 @@ export const Jugador = () => {
                     </div>
                     <SelectorCartas key={shortid()} cartas ={usuario.personaje.deck}/>
                     </>:
-                    fase===4 ? <Declarar />:
+                    fase===4 ? <Declarar setFase={setFase}/>:
                     <h1>Error XD</h1>
                     
                 }

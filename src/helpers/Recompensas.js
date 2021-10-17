@@ -1,7 +1,4 @@
 var dineroJugadores = [];
-
-console.log(dineroJugadores);
-
 export const guardarJugadores = (jugadores) => {
     jugadores.map(player => {
         return dineroJugadores = [...dineroJugadores, {id: player.id, nombre: player.nombre, personaje: player.personaje.nombre, dinero: player.personaje.dinero, ventas: player.personaje.ventas}]
@@ -29,7 +26,7 @@ export const calcularBonif = () => {
     const tamalesMax = dineroJugadores.sort((a,b)=>a.ventas.tamales-b.ventas.tamales).reverse()[0];
     const aguacateMax = dineroJugadores.sort((a,b)=>a.ventas.aguacate-b.ventas.aguacate).reverse()[0];
     const panMax = dineroJugadores.sort((a,b)=>a.ventas.pan-b.ventas.pan).reverse()[0];
-
+    const ilegalMax = dineroJugadores.sort((a,b)=>a.ventas.ilegales-b.ventas.ilegales).reverse()[0];
     for(let i=0; i<dineroJugadores.length; i++){
         if(dineroJugadores[i].ventas.tamales === tamalesMax.ventas.tamales)
             dineroJugadores[i].dinero+=15;
@@ -39,6 +36,8 @@ export const calcularBonif = () => {
             dineroJugadores[i].dinero+=20;
         if(dineroJugadores[i].ventas.carnitas === carnitasMax.ventas.carnitas)
             dineroJugadores[i].dinero+=10;
+        if(dineroJugadores[i].ilegales === ilegalMax.ilegales)
+            dineroJugadores[i].dinero+=15;
     }
 }
 
@@ -76,6 +75,15 @@ export const PinateroHD = () => {
             max = dineroJugadores[i].ventas.carnitas;
     }
     return dineroJugadores.filter(player => player.ventas.carnitas === max);
+}
+
+export const DelincuenteHD = () => {
+    let max = dineroJugadores[0].ventas.ilegales;
+    for(let i=1; i<dineroJugadores.length; i++){
+        if(dineroJugadores[i].ventas.ilegales>=max)
+            max = dineroJugadores[i].ventas.ilegales;
+    }
+    return dineroJugadores.filter(player => player.ventas.ilegales === max);
 }
 
 export const GanadorMaximo = () => {

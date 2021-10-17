@@ -10,6 +10,7 @@ import { SelectorPersonaje } from './onGame/SelectorPersonaje';
 import Clipboard from 'react-clipboard.js';
 import { motion } from 'framer-motion';
 import shortid from 'shortid';
+import { types } from '../types/types';
 
 
 const Jugadores = styled.div`
@@ -98,7 +99,7 @@ const CartaJugador = styled.div`
 export const Loby = () => {
     
     const { gameRoom } = useContext( GameContext );
-    const { partyState } = useContext( PartyContext );
+    const { partyState, dispatch } = useContext( PartyContext );
     const {socket} = useContext(SocketContext);
     const {ElegirSheriff} = usePickSheriff();
 
@@ -109,6 +110,11 @@ export const Loby = () => {
     const onClick = () => {
         //Elegir el sheriff de la partida
         ElegirSheriff();
+
+        dispatch({
+            type: types.IniciarRonda,
+            dispatch: 0
+        });
 
         //Manda los personajes a los jugadores
         socket.emit('iniciar-partida', partyState);
@@ -129,7 +135,6 @@ export const Loby = () => {
                 {
                     partyState.jugadores
                         .map( ( jugador ) => (
-                            
                                 <CartaJugador key = {jugador.id} className="col-4">
                                     <motion.div 
                                         key={shortid()}
@@ -160,9 +165,13 @@ export const Loby = () => {
                             {sala}
                         </Clipboard>
                     </Sala>
-                    <BotonNext className="col-3" onClick={onClick}>
-                        Jugar
-                    </BotonNext>
+                    {
+                        partyState.jugadores.length>2 &&
+                        <BotonNext className="col-3" onClick={onClick}>
+                            Jugar
+                        </BotonNext>
+                    }
+                    
                 </div> 
         </MainPage>
     )

@@ -8,9 +8,17 @@ import { guardarJugadores,
         AguacateroHD,
         PinateroHD,
         GanadorMaximo,
+        DelincuenteHD,
         calcularBonif
     } from '../../helpers/Recompensas';
 import { SelectorPersonaje } from '../onGame/SelectorPersonaje';
+import styled from '@emotion/styled';
+
+const contenedorImganes = styled.div`
+    img{
+        width: 50%;
+    }
+`;
 
 export const Ganador = () => {
 
@@ -125,35 +133,47 @@ export const Ganador = () => {
                     </div>
                 </div>
             )
+
         case 5:
             return (
                 <div className="container">
                     <div className="row justify-content-center">
-                        <div className="col-4"></div>
-                        <h1>El ganador es:</h1>
-                        <label>{GanadorMaximo()[0].nombre}</label>
-                        <SelectorPersonaje key={GanadorMaximo()[0].id} nombre={GanadorMaximo()[0].personaje} />
-                        <label>{GanadorMaximo()[0].dinero}</label>
-                    </div>
-                    <div className="row justify-content-around">
-                        <div className="col-4"></div>
-                        <h2>Tabla de posiciones</h2>
-                        {
-                        GanadorMaximo().map(player => {                           
-                            return(
+                        <h1>El candidato a ser el nuevo Chapo es:</h1>
+                        {DelincuenteHD().map(player => (
                             <div key= {player.id} className="col-4 p-5">
                                 <h2>{player.nombre}</h2>
                                 <SelectorPersonaje key={shortid()} nombre={player.personaje} />
-                                <h2>{player.dinero}</h2>
                             </div>
-                            )
-                        })}
+                        ))}
                     </div>
                 </div>
             )
-        default: 
-            return(
-                <h1>Volver a jugar</h1>
+        default:
+            return (
+                <div className="container">
+                    <div className="row justify-content-center">
+                        <div className="col-6">
+                            <h1>El ganador es:</h1>
+                            <h2>{GanadorMaximo()[0].nombre}:    ${GanadorMaximo()[0].dinero}</h2>
+                            <SelectorPersonaje key={GanadorMaximo()[0].id} nombre={GanadorMaximo()[0].personaje} />
+                        </div>
+                        <div className="col-6">
+                            <div className="row justify-content-center">
+                                <h2>Tabla de posiciones</h2>
+                                {
+                                GanadorMaximo().map(player => {                           
+                                    return(
+                                    <div key= {player.id} className="col-4 p-4">
+                                        <h2>{player.nombre}</h2>
+                                        <SelectorPersonaje key={shortid()} nombre={player.personaje} />
+                                        <h2>${player.dinero}</h2>
+                                    </div>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             )
 
     }

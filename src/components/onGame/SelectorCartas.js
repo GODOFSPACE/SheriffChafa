@@ -4,6 +4,9 @@ import { Producto } from './Producto';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 import Refrescar from '../../img/Buttons/Refrescar.svg';
+import { Howl } from 'howler';
+import ClickCard from '../../audio/ClickCard.mp3';
+import RefreshCards from '../../audio/RefreshCards.mp3'
 
 
 const Bolsa = styled.div`
@@ -42,10 +45,25 @@ export const SelectorCartas = ({cartas}) => {
     const [deck, setDeck] = useState([]);
     const [descartes, setDescartes] = useState(0);
 
+    const ReproducirClick = () => {
+        const sound = new Howl({
+            src: ClickCard
+        });
+        sound.play();
+    }
+
+    const ReproducirRefresh = () => {
+        const sound = new Howl({
+            src: RefreshCards
+        });
+        sound.play();
+    }
+
     const Cambiar = (carta) => {
         if(!carta.descartada){
             setDescartes(descartes + 1);
             if(descartes < 5){
+                ReproducirClick();
                 carta.descartada = true ;
                 setDeck([ ...deck, carta]);
             }
@@ -53,6 +71,7 @@ export const SelectorCartas = ({cartas}) => {
     }
 
     const eliminarCambios = () => {
+        ReproducirRefresh();
         for( let i=0; i<cartas.length ; i++){
             cartas[i].descartada = false;
             setDescartes(0);

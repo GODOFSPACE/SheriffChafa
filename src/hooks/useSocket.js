@@ -19,6 +19,7 @@ export const useSocket = ( serverPath ) => {
             forceNew: true,
             query: {
                 'sala': sala,
+                'jugadorId': jugador?.id
             }
         });
         setSocket( socketTemp );

@@ -34,7 +34,7 @@ export const SelectorSheriff = () => {
                             return(  
                                 <div key = {jugador.id}>
                                     < SelectorPersonaje key = {shortid()} nombre = {jugador.personaje.nombre} />
-                                    <h2 > El sheriff es: {jugador.nombre} </h2>
+                                    <h2 > El Catrín es: {jugador.nombre} </h2>
                                 </div>                         
                             )
                         }
