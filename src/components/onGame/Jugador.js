@@ -10,8 +10,8 @@ import { Declarar } from './Declarar';
 import { useHistory } from 'react-router-dom';
 import { Sheriff } from './Sheriff';
 import { motion } from 'framer-motion';
-import NextBtn from '../../img/Buttons/AcceptButton.png';
-import ClickUI from '../../audio/ClickUI.mp3'
+import NextBtn from '../../img/Logo2.png';
+import ClickUI from '../../audio/ClickUI.mp3';
 import { Howl } from 'howler';
 
 const Dinero = styled.div`
@@ -83,10 +83,10 @@ export const Jugador = () => {
 
     const siguienteFase = () => {
         ReproducirClick();
-        if(fase===1){
+        if(fase===0){
             socket.emit( 'cambiar-jugador-info', usuario );
         }
-        if(fase===3){
+        if(fase===1){
             for(let i=0; i<usuario.personaje.deck.length; i++){
                 if(usuario.personaje.deck[i].descartada){
                     usuario.personaje.mercancia = [...usuario.personaje.mercancia, usuario.personaje.deck[i]]
@@ -135,65 +135,65 @@ export const Jugador = () => {
                     sheriff.id === usuario.id ?
                     <Sheriff />
                     :
-                    fase===0 ?
-                    <div className="row justify-content-center">
-                        <div className="col-12 my-4"> 
-                            <Texto> Estás son tus cartas </Texto>
-                        </div>
+                    // fase===0 ?
+                    // <div className="row justify-content-center">
+                    //     <div className="col-12 my-4"> 
+                    //         <Texto> Estás son tus cartas </Texto>
+                    //     </div>
                         
-                        {   
-                            usuario.personaje.deck.map(carta => (
-                                    <motion.div key= {shortid()}
-                                        className='col-6 col-sm-4'
-                                        initial={{ scale: 0 }}
-                                        animate={{ scale: 1 }}
-                                        transition={{
-                                        type: "spring",
-                                        stiffness: 260,
-                                        damping: 20
-                                    }}>
-                                        <Producto  nombre={carta.nombre} columna={''}/>
-                                    </motion.div>
-                            ))
-                        }
-                    </div>:
-                    fase===1 ?
+                    //     {   
+                    //         usuario.personaje.deck.map(carta => (
+                    //                 <motion.div key= {shortid()}
+                    //                     className='col-6 col-sm-4'
+                    //                     initial={{ scale: 0 }}
+                    //                     animate={{ scale: 1 }}
+                    //                     transition={{
+                    //                     type: "spring",
+                    //                     stiffness: 260,
+                    //                     damping: 20
+                    //                 }}>
+                    //                     <Producto  nombre={carta.nombre} columna={''}/>
+                    //                 </motion.div>
+                    //         ))
+                    //     }
+                    // </div>:
+                    fase===0 ?
                         <>
                             <div className="row">
                                 <div className="col-12 my-4"> 
                                     <Texto> Cambiar cartas </Texto>
                                 </div>
                             </div>
-                            <SelectorCartas key={shortid()} cartas ={usuario.personaje.deck}/>
+                            <SelectorCartas key={shortid()} cartas ={usuario.personaje.deck} color={2}/>
                         </>:
-                    fase ===2 ? <div className="row justify-content-center">  
-                            <div className="col-12 my-4"> 
-                                    <Texto> Cartas actualizadas </Texto>
-                            </div>
-                        {   
-                            usuario.personaje.deck.map(carta => (
-                                    <Producto key={shortid()} nombre={carta.nombre} columna={'col-6 col-sm-4'}/>
-                            ))
-                        }
-                    </div>:
-                    fase==3 ?
+                    // fase ===2 ? <div className="row justify-content-center">  
+                    //         <div className="col-12 my-4"> 
+                    //                 <Texto> Cartas actualizadas </Texto>
+                    //         </div>
+                    //     {   
+                    //         usuario.personaje.deck.map(carta => (
+                    //                 <Producto key={shortid()} nombre={carta.nombre} columna={'col-6 col-sm-4'}/>
+                    //         ))
+                    //     }
+                    // </div>:
+                    fase===1 ?
                     <>
                     <div className="row">
                         <div className="col-12 my-4"> 
                             <Texto> Vender Cartas </Texto>
                         </div>
                     </div>
-                    <SelectorCartas key={shortid()} cartas ={usuario.personaje.deck}/>
+                    <SelectorCartas key={shortid()} cartas ={usuario.personaje.deck} color={1}/>
                     </>:
-                    fase===4 ? <Declarar setFase={setFase}/>:
+                    fase===2 ? <Declarar setFase={setFase}/>:
                     <h1>Error XD</h1>
                     
                 }
 
                 {
-                    (sheriff.id !== usuario.id && fase!==4) &&
+                    (sheriff.id !== usuario.id && fase!==2) &&
                     <div className="row justify-content-center pt-5" >
-                        <div className="col-4">
+                        <div className="col-3">
                                 <SiguienteLogo src={NextBtn} alt="Siguiente" onClick={siguienteFase}/>
                         </div>
                     </div>

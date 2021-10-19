@@ -8,6 +8,9 @@ import styled from '@emotion/styled';
 import AnteriorCarta from '../../img/Buttons/Anteriorcarta.svg';
 import MeterCarta from '../../img/Buttons/metercarta.svg';
 import SiguienteCarta from '../../img/Buttons/Siguientecarta.svg';
+import { Howl } from 'howler';
+import ClickUI from '../../audio/ClickUI.mp3';
+import ClickControl from '../../audio/ControlUI.mp3';
 const Bolsa = styled.div`
     width: 90%;
     height: 19rem;
@@ -67,7 +70,23 @@ export const Declarar = ({setFase}) => {
     const {personaje:{mercancia}} = usuario;
     const {socket} = useContext(SocketContext);
     const history = useHistory();
+
+    const ReproducirClick = () => {
+        const sound = new Howl({
+            src: ClickControl
+        });
+        sound.play();
+    }
+
+    const ReproducirClickUI = () => {
+        const sound = new Howl({
+            src: ClickUI
+        });
+        sound.play();
+    }
+
     const Retroceso = () => {
+        ReproducirClick();
         if(contador > 0){
             setContador(contador - 1 );
         }
@@ -78,6 +97,7 @@ export const Declarar = ({setFase}) => {
     }
 
     const Avanzar = () => {
+        ReproducirClick();
         if(contador < carta.length - 1) {
             setContador(contador + 1 );
         }
@@ -87,6 +107,7 @@ export const Declarar = ({setFase}) => {
     }
 
     const Aceptar = () => {
+        ReproducirClickUI();
         usuario.personaje.declaracion = carta[contador];
         socket.emit('finalizar-nalgona', usuario);
         partyState.ready = false;
@@ -95,7 +116,7 @@ export const Declarar = ({setFase}) => {
 
     useEffect(() => {
         if(!mercancia.length>0)
-            setFase(3);
+            setFase(1);
     }, [mercancia]);
 
     return (

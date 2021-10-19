@@ -13,7 +13,7 @@ export const ImprimirJugadores = () => {
                 <h1>Jugadores Listos:</h1>
                 {
                     revision.map(player => (
-                        <div className="col-3" key = {player.id}>
+                        <div className="col-2" key = {player.id}>
                             <h2>{player.nombre}</h2>
                             <SelectorPersonaje key={shortid()} nombre={player.personaje.nombre} />
                         </div>

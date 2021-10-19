@@ -8,6 +8,8 @@ import { Producto } from '../onGame/Producto';
 import { types } from '../../types/types';
 import { usePickSheriff } from '../../hooks/usePickSheriff';
 import { motion } from 'framer-motion';
+import { Howl } from 'howler';
+import ClickCard from '../../audio/ClickCard.mp3';
 
 const Contenedor = styled.div`
     margin: 0 auto;
@@ -98,6 +100,13 @@ export const JuicioFinal = ({fase}) => {
     const [loop, setLoop] = useState(-3);
     const disminuirTiempo = () => {
         setLoop(loop-1);
+    }
+
+    const ReproducirClickUI = () => {
+        const sound = new Howl({
+            src: ClickCard
+        });
+        sound.play();
     }
 
     const SiguienteJugador = () => {
@@ -203,6 +212,9 @@ export const JuicioFinal = ({fase}) => {
                         stiffness: 260,
                         damping: 20}}
                         >
+                            {
+                                ReproducirClickUI()
+                            }
                         <Producto nombre={revision[contador].personaje.mercancia[loop >= 0 ? loop : 0].nombre}/>
                     </motion.div>
                 </CartasJugador>

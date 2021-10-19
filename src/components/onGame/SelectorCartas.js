@@ -9,12 +9,35 @@ import ClickCard from '../../audio/ClickCard.mp3';
 import RefreshCards from '../../audio/RefreshCards.mp3'
 
 
-const Bolsa = styled.div`
+const Bolsa1 = styled.div`
     width: 90%;
     height: 19rem;
     margin: 4rem auto;
     padding-top: 3rem;
     background-color: #4600D0;
+    border-radius: 2rem;
+
+    span{
+        position: absolute;
+        transform: translateY(-5.2rem);
+        font-weight: 900;
+        font-size: 3rem;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.25);
+    }
+
+    @media(min-width: 700px){
+        height: 40rem;
+    }
+
+`;
+
+const Bolsa2 = styled.div`
+    width: 90%;
+    height: 19rem;
+    margin: 1.5rem auto;
+    padding-top: 3rem;
+    background-color: #DB9BE2;
+    box-shadow: inset 0 0 0 1rem #711DDF;
     border-radius: 2rem;
 
     span{
@@ -40,7 +63,7 @@ const Descartada = styled.div`
     filter: brightness(0.30);
 `;
 
-export const SelectorCartas = ({cartas}) => {
+export const SelectorCartas = ({cartas, color}) => {
     
     const [deck, setDeck] = useState([]);
     const [descartes, setDescartes] = useState(0);
@@ -78,62 +101,122 @@ export const SelectorCartas = ({cartas}) => {
             setDeck([]);
         }
     }
-
-    return(
-        <>
-            <div className="row">
-                <div className="col-md-6">
-                    <Bolsa className="row justify-content-center" >
-                        <span>Cambiando cartas</span>
-                        {deck.map( carta => (
-                            <motion.div key= {shortid()}
-                            className='col-4'
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{
-                            type: "spring",
-                            stiffness: 260,
-                            damping: 20
-                        }}>
-                            <Producto nombre={carta.nombre} columna={''}/>
-                        </motion.div>
-
-                        ))
-                        }
-
-                        {deck.length>0 &&
-                            <div className='col-4'>
-                                <Imagen src={Refrescar} alt="Revertir" onClick={eliminarCambios}/>
-                            </div>
-                        }
-                        
-                    </Bolsa>
-                </div>
-                <div className="col-md-6">
-                    <Bolsa className="row justify-content-center">
-                        <span>Tus cartas</span>
-                        {cartas.map( carta => {
-                            if(!carta.descartada){
-                                return(
-                                    <div onClick={() => Cambiar(carta)} key={shortid()} className='col-4'>
-                                        <Producto key={shortid()} nombre={carta.nombre} />
+    switch(color){
+        case 1:
+            return(
+                <>
+                    <div className="row">
+                        <div className="col-md-6">
+                            <Bolsa1 className="row justify-content-center" >
+                                <span>Cambiando cartas</span>
+                                {deck.map( carta => (
+                                    <motion.div key= {shortid()}
+                                    className='col-4'
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: 1 }}
+                                    transition={{
+                                    type: "spring",
+                                    stiffness: 260,
+                                    damping: 20
+                                }}>
+                                    <Producto nombre={carta.nombre} columna={''}/>
+                                </motion.div>
+        
+                                ))
+                                }
+        
+                                {deck.length>0 &&
+                                    <div className='col-4'>
+                                        <Imagen src={Refrescar} alt="Revertir" onClick={eliminarCambios}/>
                                     </div>
+                                }
+                                
+                            </Bolsa1>
+                        </div>
+                        <div className="col-md-6">
+                            <Bolsa1 className="row justify-content-center">
+                                <span>Tus cartas</span>
+                                {cartas.map( carta => {
+                                    if(!carta.descartada){
+                                        return(
+                                            <div onClick={() => Cambiar(carta)} key={shortid()} className='col-4'>
+                                                <Producto key={shortid()} nombre={carta.nombre} />
+                                            </div>
+                                        )
+                                    }
+                                    else{
+                                        return(
+                                            <Descartada onClick={() => Cambiar(carta)} key={shortid()} className='col-4'> 
+                                                <Producto nombre={carta.nombre}/>
+                                            </Descartada>
+                                        )
+                                    }
+                                }
                                 )
-                            }
-                            else{
-                                return(
-                                    <Descartada onClick={() => Cambiar(carta)} key={shortid()} className='col-4'> 
-                                        <Producto nombre={carta.nombre}/>
-                                    </Descartada>
+                                }
+                            </Bolsa1>
+                        </div>    
+                    </div>
+                </>
+            )
+        case 2:
+            return(
+                <>
+                    <div className="row">
+                        <div className="col-md-6">
+                            <Bolsa2 className="row justify-content-center" >
+                                <span>Cambiando cartas</span>
+                                {deck.map( carta => (
+                                    <motion.div key= {shortid()}
+                                    className='col-4'
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: 1 }}
+                                    transition={{
+                                    type: "spring",
+                                    stiffness: 260,
+                                    damping: 20
+                                }}>
+                                    <Producto nombre={carta.nombre} columna={''}/>
+                                </motion.div>
+        
+                                ))
+                                }
+        
+                                {deck.length>0 &&
+                                    <div className='col-4'>
+                                        <Imagen src={Refrescar} alt="Revertir" onClick={eliminarCambios}/>
+                                    </div>
+                                }
+                                
+                            </Bolsa2>
+                        </div>
+                        <div className="col-md-6">
+                            <Bolsa2 className="row justify-content-center">
+                                <span>Tus cartas</span>
+                                {cartas.map( carta => {
+                                    if(!carta.descartada){
+                                        return(
+                                            <div onClick={() => Cambiar(carta)} key={shortid()} className='col-4'>
+                                                <Producto key={shortid()} nombre={carta.nombre} />
+                                            </div>
+                                        )
+                                    }
+                                    else{
+                                        return(
+                                            <Descartada onClick={() => Cambiar(carta)} key={shortid()} className='col-4'> 
+                                                <Producto nombre={carta.nombre}/>
+                                            </Descartada>
+                                        )
+                                    }
+                                }
                                 )
-                            }
-                        }
-                        )
-                        }
-                    </Bolsa>
-                </div>    
-            </div>
-        </>
-    )
+                                }
+                            </Bolsa2>
+                        </div>    
+                    </div>
+                </>
+            )
+            
+    }
 }
 

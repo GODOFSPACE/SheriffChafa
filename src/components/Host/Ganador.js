@@ -14,9 +14,22 @@ import { guardarJugadores,
 import { SelectorPersonaje } from '../onGame/SelectorPersonaje';
 import styled from '@emotion/styled';
 
-const contenedorImganes = styled.div`
-    img{
-        width: 50%;
+const Moneda = styled.div`
+    font-weight: 900;
+    font-size: 10rem;
+    span{
+        margin-top: 15rem;
+        width: 25rem;
+        height: 25rem;
+        border-radius: 20rem;
+        display: inline-flex;
+        color: #212121;
+        font-weight: 900;
+        font-size: 9rem;
+        align-items: center;
+        justify-content: center;
+        background-color: #E3CE0D;
+        border: 1rem solid #CCB90D;
     }
 `;
 
@@ -88,6 +101,9 @@ export const Ganador = () => {
                                 <SelectorPersonaje key={shortid()} nombre={player.personaje} />
                             </div>
                         ))}
+                        <Moneda className="col-4 p-5">
+                            + <span>$20</span>
+                        </Moneda>
                     </div>
                 </div>
             )
@@ -102,6 +118,9 @@ export const Ganador = () => {
                                 <SelectorPersonaje key={shortid()} nombre={player.personaje} />
                             </div>
                         ))}
+                        <Moneda className="col-4 p-5">
+                            + <span>$15</span>
+                        </Moneda>
                     </div>
                 </div>
             )
@@ -116,6 +135,9 @@ export const Ganador = () => {
                                 <SelectorPersonaje key={shortid()} nombre={player.personaje} />
                             </div>
                         ))}
+                        <Moneda className="col-4 p-5">
+                            + <span>$15</span>
+                        </Moneda>
                     </div>
                 </div>
             )
@@ -130,6 +152,9 @@ export const Ganador = () => {
                                 <SelectorPersonaje key={shortid()} nombre={player.personaje} />
                             </div>
                         ))}
+                        <Moneda className="col-4 p-5">
+                            + <span>$10</span>
+                        </Moneda>
                     </div>
                 </div>
             )
@@ -145,6 +170,9 @@ export const Ganador = () => {
                                 <SelectorPersonaje key={shortid()} nombre={player.personaje} />
                             </div>
                         ))}
+                    <Moneda className="col-4 p-5">
+                        + <span>$15</span>
+                    </Moneda>
                     </div>
                 </div>
             )

@@ -4,6 +4,8 @@ import styled from '@emotion/styled';
 import { PartyContext } from '../../context/game/PartyContext';
 import { SocketContext } from '../../context/SocketContext';
 import { useHistory } from 'react-router-dom';
+import { Howl } from 'howler';
+import Coin from '../../audio/Coin.mp3';
 
 const Dinero = styled.div`
     display: inline-block;
@@ -103,10 +105,18 @@ export const Soborno = () => {
     const history = useHistory();
 
     const [soborno, setSoborno] = useState(0);
-    const [activar, setActivar] = useState(true)
+    const [activar, setActivar] = useState(true);
+
+    const ReproducirClick = () => {
+        const sound = new Howl({
+            src: Coin
+        });
+        sound.play();
+    }
 
     function sumar (cantidad){
         if (soborno < usuario.personaje.dinero){
+            ReproducirClick();
             setSoborno(soborno + cantidad);
             setActivar(true);
         }
@@ -114,6 +124,7 @@ export const Soborno = () => {
 
     function restar (cantidad) {
         if(soborno > 0){
+            ReproducirClick();
             setSoborno(soborno - cantidad);
             setActivar(true);
         }

@@ -161,9 +161,9 @@ export const Loby = () => {
                     </BotonNext>
                     <Sala className="col-3">
                         <span>sala</span>
-                        <Clipboard data-clipboard-text={sala}>
+                        {/* <Clipboard data-clipboard-text={sala}> */}
                             {sala}
-                        </Clipboard>
+                        {/* </Clipboard> */}
                     </Sala>
                     {
                         partyState.jugadores.length>2 &&
